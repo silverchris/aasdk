@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <f1x/aasdk/USB/AccessoryModeQueryType.hpp>
 #include <f1x/aasdk/USB/IAccessoryModeQuery.hpp>
 #include <f1x/aasdk/USB/IUSBEndpoint.hpp>

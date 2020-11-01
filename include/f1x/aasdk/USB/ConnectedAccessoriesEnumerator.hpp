@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <f1x/aasdk/USB/IUSBWrapper.hpp>
 #include <f1x/aasdk/USB/IAccessoryModeQueryChainFactory.hpp>
 #include <f1x/aasdk/USB/IConnectedAccessoriesEnumerator.hpp>
@@ -33,7 +33,7 @@ namespace usb
 class ConnectedAccessoriesEnumerator: public IConnectedAccessoriesEnumerator, public std::enable_shared_from_this<ConnectedAccessoriesEnumerator>
 {
 public:
-    ConnectedAccessoriesEnumerator(IUSBWrapper& usbWrapper, boost::asio::io_service& ioService, IAccessoryModeQueryChainFactory& queryChainFactory);
+    ConnectedAccessoriesEnumerator(IUSBWrapper& usbWrapper, asio::io_service& ioService, IAccessoryModeQueryChainFactory& queryChainFactory);
 
     void enumerate(Promise::Pointer promise) override;
     void cancel() override;
@@ -45,7 +45,7 @@ private:
     void reset();
 
     IUSBWrapper& usbWrapper_;
-    boost::asio::io_service::strand strand_;
+    asio::io_service::strand strand_;
     IAccessoryModeQueryChainFactory& queryChainFactory_;
     IAccessoryModeQueryChain::Pointer queryChain_;
     Promise::Pointer promise_;

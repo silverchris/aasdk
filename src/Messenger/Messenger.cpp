@@ -27,7 +27,7 @@ namespace aasdk
 namespace messenger
 {
 
-Messenger::Messenger(boost::asio::io_service& ioService, IMessageInStream::Pointer messageInStream, IMessageOutStream::Pointer messageOutStream)
+Messenger::Messenger(asio::io_service& ioService, IMessageInStream::Pointer messageInStream, IMessageOutStream::Pointer messageOutStream)
     : receiveStrand_(ioService)
     , sendStrand_(ioService)
     , messageInStream_(std::move(messageInStream))

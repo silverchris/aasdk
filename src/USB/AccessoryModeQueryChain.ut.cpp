@@ -49,7 +49,7 @@ protected:
                       std::bind(&AccessoryModeQueryChainPromiseHandlerMock::onReject, &promiseHandlerMock_, std::placeholders::_1));
     }
 
-    boost::asio::io_service ioService_;
+    asio::io_service ioService_;
     USBWrapperMock usbWrapperMock_;
     AccessoryModeQueryFactoryMock queryFactoryMock_;
     USBWrapperMock::DummyDeviceHandle dummyDeviceHandle_;

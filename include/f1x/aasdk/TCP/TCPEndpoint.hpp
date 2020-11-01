@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio/ip/tcp.hpp>
+#include <asio/ip/tcp.hpp>
 #include <f1x/aasdk/TCP/ITCPEndpoint.hpp>
 #include <f1x/aasdk/TCP/ITCPWrapper.hpp>
 
@@ -41,7 +41,7 @@ public:
 private:
     using std::enable_shared_from_this<TCPEndpoint>::shared_from_this;
 
-    void asyncOperationHandler(const boost::system::error_code& ec, size_t bytesTransferred, Promise::Pointer promise);
+    void asyncOperationHandler(const asio::error_code& ec, size_t bytesTransferred, Promise::Pointer promise);
 
     ITCPWrapper& tcpWrapper_;
     SocketPointer socket_;

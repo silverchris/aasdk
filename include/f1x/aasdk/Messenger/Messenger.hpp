@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <list>
 #include <f1x/aasdk/Messenger/IMessenger.hpp>
 #include <f1x/aasdk/Messenger/IMessageInStream.hpp>
@@ -36,7 +36,7 @@ namespace messenger
 class Messenger: public IMessenger, public std::enable_shared_from_this<Messenger>
 {
 public:
-    Messenger(boost::asio::io_service& ioService, IMessageInStream::Pointer messageInStream, IMessageOutStream::Pointer messageOutStream);
+    Messenger(asio::io_service& ioService, IMessageInStream::Pointer messageInStream, IMessageOutStream::Pointer messageOutStream);
     void enqueueReceive(ChannelId channelId, ReceivePromise::Pointer promise) override;
     void enqueueSend(Message::Pointer message, SendPromise::Pointer promise) override;
     void stop() override;
@@ -50,8 +50,8 @@ private:
     void rejectReceivePromiseQueue(const error::Error& e);
     void rejectSendPromiseQueue(const error::Error& e);
 
-    boost::asio::io_service::strand receiveStrand_;
-    boost::asio::io_service::strand sendStrand_;
+    asio::io_service::strand receiveStrand_;
+    asio::io_service::strand sendStrand_;
     IMessageInStream::Pointer messageInStream_;
     IMessageOutStream::Pointer messageOutStream_;
 
