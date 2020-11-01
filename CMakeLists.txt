@@ -55,7 +55,7 @@ add_library(aasdk SHARED
                 ${include_files})
 
 add_dependencies(aasdk aasdk_proto)
-target_compile_definitions(aasdk PUBLIC HEADER_ONLY ASIO_STANDALONE)
+target_compile_definitions(aasdk PUBLIC HEADER_ONLY ASIO_STANDALONE GOOGLE_PROTOBUF_NO_RTTI)
 target_link_libraries(aasdk
                         aasdk_proto
                         protobuf::libprotobuf-lite
