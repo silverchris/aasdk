@@ -31,7 +31,7 @@ namespace transport
 class TCPTransport: public Transport
 {
 public:
-    TCPTransport(boost::asio::io_service& ioService, tcp::ITCPEndpoint::Pointer tcpEndpoint);
+    TCPTransport(asio::io_service& ioService, tcp::ITCPEndpoint::Pointer tcpEndpoint);
 
     void stop() override;
 

@@ -18,9 +18,6 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_INIT} -Wall -pedantic")
 
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
 
 add_definitions(-DBOOST_ALL_DYN_LINK)
 
@@ -30,7 +27,7 @@ endif(WIN32)
 
 add_subdirectory(aasdk_proto)
 
-find_package(Boost REQUIRED COMPONENTS system log OPTIONAL_COMPONENTS unit_test_framework)
+find_package(asio REQUIRED)
 find_package(libusb-1.0 REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -38,7 +35,6 @@ find_package(OpenSSL REQUIRED)
 set(AASDK_PROTO_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${AASDK_PROTO_INCLUDE_DIRS}
-                        ${Boost_INCLUDE_DIRS}
                         ${LIBUSB_1_INCLUDE_DIRS}
                         ${PROTOBUF_INCLUDE_DIR}
                         ${OPENSSL_INCLUDE_DIR}
@@ -59,10 +55,9 @@ add_library(aasdk SHARED
                 ${include_files})
 
 add_dependencies(aasdk aasdk_proto)
+target_compile_definitions(aasdk PUBLIC HEADER_ONLY ASIO_STANDALONE)
 target_link_libraries(aasdk
                         aasdk_proto
-                        Boost::system
-                        Boost::log
                         protobuf::libprotobuf-lite
                         OpenSSL::SSL
                         OpenSSL::Crypto
@@ -73,6 +68,11 @@ install(TARGETS aasdk LIBRARY DESTINATION lib)
 install(DIRECTORY include/f1x/aasdk DESTINATION include/f1x)
 
 if(AASDK_TEST)
+    set(Boost_USE_STATIC_LIBS OFF)
+    set(Boost_USE_MULTITHREADED ON)
+    set(Boost_USE_STATIC_RUNTIME OFF)
+    find_package(Boost REQUIRED OPTIONAL_COMPONENTS unit_test_framework)
+
     include(ExternalGtest)
     add_executable(aasdk_ut
                     ${tests_source_files}

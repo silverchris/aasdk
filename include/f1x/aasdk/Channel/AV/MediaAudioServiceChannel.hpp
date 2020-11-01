@@ -32,7 +32,7 @@ namespace av
 class MediaAudioServiceChannel: public AudioServiceChannel
 {
 public:
-    MediaAudioServiceChannel(boost::asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
+    MediaAudioServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
 };
 
 }

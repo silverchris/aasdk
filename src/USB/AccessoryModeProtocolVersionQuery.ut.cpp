@@ -67,7 +67,7 @@ protected:
         ioService_.run();
     }
 
-    boost::asio::io_service ioService_;
+    asio::io_service ioService_;
     USBWrapperMock usbWrapperMock_;
     std::shared_ptr<USBEndpointMock> usbEndpointMock_;
     IUSBEndpoint::Pointer usbEndpoint_;

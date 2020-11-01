@@ -34,7 +34,7 @@ class ITCPEndpoint
 public:
     typedef std::shared_ptr<ITCPEndpoint> Pointer;
     typedef io::Promise<size_t> Promise;
-    typedef std::shared_ptr<boost::asio::ip::tcp::socket> SocketPointer;
+    typedef std::shared_ptr<asio::ip::tcp::socket> SocketPointer;
 
     virtual ~ITCPEndpoint() = default;
 

@@ -20,7 +20,7 @@
 
 #include <unordered_map>
 #include <memory>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <f1x/aasdk/USB/IUSBWrapper.hpp>
 #include <f1x/aasdk/USB/IUSBEndpoint.hpp>
 
@@ -35,7 +35,7 @@ class USBEndpoint: public IUSBEndpoint,
         public std::enable_shared_from_this<USBEndpoint>
 {
 public:
-    USBEndpoint(IUSBWrapper& usbWrapper, boost::asio::io_service& ioService, DeviceHandle handle, uint8_t endpointAddress = 0x00);
+    USBEndpoint(IUSBWrapper& usbWrapper, asio::io_service& ioService, DeviceHandle handle, uint8_t endpointAddress = 0x00);
     USBEndpoint(const USBEndpoint&) = delete;
 
     void controlTransfer(common::DataBuffer buffer, uint32_t timeout, Promise::Pointer promise) override;
@@ -53,7 +53,7 @@ private:
     static void transferHandler(libusb_transfer *transfer);
 
     IUSBWrapper& usbWrapper_;
-    boost::asio::io_service::strand strand_;
+    asio::io_service::strand strand_;
     DeviceHandle handle_;
     uint8_t endpointAddress_;
     Transfers transfers_;

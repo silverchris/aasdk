@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <list>
 #include <f1x/aasdk/USB/IUSBHub.hpp>
 #include <f1x/aasdk/USB/IAccessoryModeQueryChainFactory.hpp>
@@ -35,7 +35,7 @@ class IUSBWrapper;
 class USBHub: public IUSBHub, public std::enable_shared_from_this<USBHub>
 {
 public:
-    USBHub(IUSBWrapper& usbWrapper, boost::asio::io_service& ioService, IAccessoryModeQueryChainFactory& queryChainFactory);
+    USBHub(IUSBWrapper& usbWrapper, asio::io_service& ioService, IAccessoryModeQueryChainFactory& queryChainFactory);
     USBHub(const USBHub&) = delete;
 
     void start(Promise::Pointer promise) override;
@@ -49,7 +49,7 @@ private:
     static int hotPlugEventsHandler(libusb_context* usbContext, libusb_device* device, libusb_hotplug_event event, void* uerData);
 
     IUSBWrapper& usbWrapper_;
-    boost::asio::io_service::strand strand_;
+    asio::io_service::strand strand_;
     IAccessoryModeQueryChainFactory& queryChainFactory_;
     Promise::Pointer hotPlugPromise_;
     Pointer self_;

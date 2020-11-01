@@ -28,7 +28,7 @@ namespace aasdk
 namespace usb
 {
 
-AccessoryModeProtocolVersionQuery::AccessoryModeProtocolVersionQuery(boost::asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint)
+AccessoryModeProtocolVersionQuery::AccessoryModeProtocolVersionQuery(asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint)
     : AccessoryModeQuery(ioService, std::move(usbEndpoint))
 {
     data_.resize(8 + sizeof(ProtocolVersion));

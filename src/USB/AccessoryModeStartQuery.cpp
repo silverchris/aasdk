@@ -27,7 +27,7 @@ namespace aasdk
 namespace usb
 {
 
-AccessoryModeStartQuery::AccessoryModeStartQuery(boost::asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint)
+AccessoryModeStartQuery::AccessoryModeStartQuery(asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint)
     : AccessoryModeQuery(ioService, std::move(usbEndpoint))
 {
     data_.resize(8);

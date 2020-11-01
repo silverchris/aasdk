@@ -27,7 +27,7 @@ namespace aasdk
 namespace messenger
 {
 
-MessageOutStream::MessageOutStream(boost::asio::io_service& ioService, transport::ITransport::Pointer transport, ICryptor::Pointer cryptor)
+MessageOutStream::MessageOutStream(asio::io_service& ioService, transport::ITransport::Pointer transport, ICryptor::Pointer cryptor)
     : strand_(ioService)
     , transport_(std::move(transport))
     , cryptor_(std::move(cryptor))

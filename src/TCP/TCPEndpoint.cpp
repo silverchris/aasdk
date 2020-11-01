@@ -57,7 +57,7 @@ void TCPEndpoint::stop()
     tcpWrapper_.close(*socket_);
 }
 
-void TCPEndpoint::asyncOperationHandler(const boost::system::error_code& ec, size_t bytesTransferred, Promise::Pointer promise)
+void TCPEndpoint::asyncOperationHandler(const asio::error_code& ec, size_t bytesTransferred, Promise::Pointer promise)
 {
     if(!ec)
     {
@@ -65,7 +65,7 @@ void TCPEndpoint::asyncOperationHandler(const boost::system::error_code& ec, siz
     }
     else
     {
-        auto error = ec == boost::asio::error::operation_aborted ? error::Error(error::ErrorCode::OPERATION_ABORTED) : error::Error(error::ErrorCode::TCP_TRANSFER, static_cast<uint32_t>(ec.value()));
+        auto error = ec == asio::error::basic_errors::operation_aborted ? error::Error(error::ErrorCode::OPERATION_ABORTED) : error::Error(error::ErrorCode::TCP_TRANSFER, static_cast<uint32_t>(ec.value()));
         promise->reject(error);
     }
 }

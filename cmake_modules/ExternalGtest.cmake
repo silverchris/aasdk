@@ -16,8 +16,5 @@ ExternalProject_Add(
     -D CMAKE_VERBOSE_MAKEFILE=ON
 )
 
-if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(GTEST_DEBUG_POSTFIX d)
-else()
-    set(GTEST_DEBUG_POSTFIX)
-endif()
+set(googletest_postfix $<CONFIG:Debug>)
+set(GTEST_DEBUG_POSTFIX $<${googletest_postfix}:d>)

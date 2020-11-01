@@ -25,7 +25,7 @@ namespace aasdk
 namespace transport
 {
 
-Transport::Transport(boost::asio::io_service& ioService)
+Transport::Transport(asio::io_service& ioService)
     : receiveStrand_(ioService)
     , sendStrand_(ioService)
 {}

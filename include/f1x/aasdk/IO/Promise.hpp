@@ -19,7 +19,7 @@
 #pragma once
 
 #include <functional>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <f1x/aasdk/Error/Error.hpp>
 #include <f1x/aasdk/IO/IOContextWrapper.hpp>
 
@@ -42,23 +42,23 @@ public:
 
     Promise(const Promise&) = delete;
 
-    static Pointer defer(boost::asio::io_service& ioService)
+    static Pointer defer(asio::io_service& ioService)
     {
         return std::make_shared<Promise>(ioService);
     }
 
-    static Pointer defer(boost::asio::io_service::strand& strand)
+    static Pointer defer(asio::io_service::strand& strand)
     {
         return std::make_shared<Promise>(strand);
     }
 
-    explicit Promise(boost::asio::io_service& ioService)
+    explicit Promise(asio::io_service& ioService)
         : ioContextWrapper_(ioService)
     {
 
     }
 
-    explicit Promise(boost::asio::io_service::strand& strand)
+    explicit Promise(asio::io_service::strand& strand)
         : ioContextWrapper_(strand)
     {
 
@@ -125,23 +125,23 @@ public:
 
     Promise(const Promise&) = delete;
 
-    static Pointer defer(boost::asio::io_service& ioService)
+    static Pointer defer(asio::io_service& ioService)
     {
         return std::make_shared<Promise>(ioService);
     }
 
-    static Pointer defer(boost::asio::io_service::strand& strand)
+    static Pointer defer(asio::io_service::strand& strand)
     {
         return std::make_shared<Promise>(strand);
     }
 
-    explicit Promise(boost::asio::io_service& ioService)
+    explicit Promise(asio::io_service& ioService)
         : ioContextWrapper_(ioService)
     {
 
     }
 
-    explicit Promise(boost::asio::io_service::strand& strand)
+    explicit Promise(asio::io_service::strand& strand)
         : ioContextWrapper_(strand)
     {
 
@@ -207,23 +207,23 @@ public:
 
     Promise(const Promise&) = delete;
 
-    static Pointer defer(boost::asio::io_service& ioService)
+    static Pointer defer(asio::io_service& ioService)
     {
         return std::make_shared<Promise>(ioService);
     }
 
-    static Pointer defer(boost::asio::io_service::strand& strand)
+    static Pointer defer(asio::io_service::strand& strand)
     {
         return std::make_shared<Promise>(strand);
     }
 
-    explicit Promise(boost::asio::io_service& ioService)
+    explicit Promise(asio::io_service& ioService)
         : ioContextWrapper_(ioService)
     {
 
     }
 
-    explicit Promise(boost::asio::io_service::strand& strand)
+    explicit Promise(asio::io_service::strand& strand)
         : ioContextWrapper_(strand)
     {
 
@@ -290,23 +290,23 @@ public:
 
     Promise(const Promise&) = delete;
 
-    static Pointer defer(boost::asio::io_service& ioService)
+    static Pointer defer(asio::io_service& ioService)
     {
         return std::make_shared<Promise>(ioService);
     }
 
-    static Pointer defer(boost::asio::io_service::strand& strand)
+    static Pointer defer(asio::io_service::strand& strand)
     {
         return std::make_shared<Promise>(strand);
     }
 
-    explicit Promise(boost::asio::io_service& ioService)
+    explicit Promise(asio::io_service& ioService)
         : ioContextWrapper_(ioService)
     {
 
     }
 
-    explicit Promise(boost::asio::io_service::strand& strand)
+    explicit Promise(asio::io_service::strand& strand)
         : ioContextWrapper_(strand)
     {
 

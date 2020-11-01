@@ -28,7 +28,7 @@ namespace usb
 {
 
 AccessoryModeQueryChain::AccessoryModeQueryChain(IUSBWrapper& usbWrapper,
-                                                 boost::asio::io_service& ioService,
+                                                 asio::io_service& ioService,
                                                  IAccessoryModeQueryFactory& queryFactory)
     : usbWrapper_(usbWrapper)
     , strand_(ioService)

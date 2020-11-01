@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <mutex>
 
 namespace f1x
@@ -32,8 +32,8 @@ class IOContextWrapper
 {
 public:
     IOContextWrapper();
-    explicit IOContextWrapper(boost::asio::io_service& ioService);
-    explicit IOContextWrapper(boost::asio::io_service::strand& strand);
+    explicit IOContextWrapper(asio::io_service& ioService);
+    explicit IOContextWrapper(asio::io_service::strand& strand);
 
     template<typename CompletionHandlerType>
     void post(CompletionHandlerType&& handler)
@@ -65,8 +65,8 @@ public:
     bool isActive() const;
 
 private:
-    boost::asio::io_service* ioService_;
-    boost::asio::io_service::strand* strand_;
+    asio::io_service* ioService_;
+    asio::io_service::strand* strand_;
 };
 
 }

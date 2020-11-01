@@ -18,6 +18,6 @@
 
 #pragma once
 
-#include <boost/log/trivial.hpp>
+#include <iostream>
 
-#define AASDK_LOG(severity) BOOST_LOG_TRIVIAL(severity) << "[AaSdk] "
+#define AASDK_LOG(severity) std::cout << "[AaSdk] "

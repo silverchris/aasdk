@@ -55,7 +55,7 @@ protected:
                           std::bind(&TransportSendPromiseHandlerMock::onReject, &sendPromiseHandlerMock_, std::placeholders::_1));
     }
 
-    boost::asio::io_service ioService_;
+    asio::io_service ioService_;
     usb::ut::USBEndpointMock inEndpointMock_;
     usb::ut::USBEndpointMock outEndpointMock_;
     TransportReceivePromiseHandlerMock receivePromiseHandlerMock_;

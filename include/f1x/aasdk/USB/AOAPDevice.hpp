@@ -19,7 +19,7 @@
 #pragma once
 
 #include <utility>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <libusb.h>
 #include <f1x/aasdk/USB/IUSBWrapper.hpp>
 #include <f1x/aasdk/USB/IAOAPDevice.hpp>
@@ -34,14 +34,14 @@ namespace usb
 class AOAPDevice: public IAOAPDevice
 {
 public:
-    AOAPDevice(IUSBWrapper& usbWrapper, boost::asio::io_service& ioService, DeviceHandle handle, const libusb_interface_descriptor* interfaceDescriptor);
+    AOAPDevice(IUSBWrapper& usbWrapper, asio::io_service& ioService, DeviceHandle handle, const libusb_interface_descriptor* interfaceDescriptor);
     ~AOAPDevice() override;
     AOAPDevice(const AOAPDevice&) = delete;
 
     IUSBEndpoint& getInEndpoint() override;
     IUSBEndpoint& getOutEndpoint() override;
 
-    static IAOAPDevice::Pointer create(IUSBWrapper& usbWrapper, boost::asio::io_service& ioService, DeviceHandle handle);
+    static IAOAPDevice::Pointer create(IUSBWrapper& usbWrapper, asio::io_service& ioService, DeviceHandle handle);
 
 private:
     static ConfigDescriptorHandle getConfigDescriptor(IUSBWrapper& usbWrapper, DeviceHandle handle);
