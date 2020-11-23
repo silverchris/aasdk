@@ -4,6 +4,9 @@ project(aasdk LANGUAGES CXX)
 option(AASDK_TEST "Build Unit Test Cases" OFF)
 option(AASDK_CODE_COVERAGE "Build with Code Coverage" OFF)
 
+set(OPENSSL_USE_STATIC_LIBS TRUE) #Statically link openssl for Mazda target
+set(Protobuf_USE_STATIC_LIBS ON) #Statically link protobuf for Mazda target
+
 set(base_directory ${CMAKE_CURRENT_SOURCE_DIR})
 set(sources_directory ${base_directory}/src)
 
@@ -18,15 +21,9 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_INIT} -Wall -pedantic")
 
-set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-
-add_definitions(-DBOOST_ALL_DYN_LINK)
-
-if(WIN32)
-    set(WINSOCK2_LIBRARIES "ws2_32")
-endif(WIN32)
 
 add_subdirectory(aasdk_proto)
 
@@ -54,7 +51,7 @@ file(GLOB_RECURSE tests_include_files ${include_ut_directory}/*.hpp)
 
 list(REMOVE_ITEM source_files ${tests_source_files})
 
-add_library(aasdk SHARED
+add_library(aasdk STATIC
                 ${source_files}
                 ${include_files})
 
@@ -63,11 +60,10 @@ target_link_libraries(aasdk
                         aasdk_proto
                         Boost::system
                         Boost::log
-                        protobuf::libprotobuf-lite
+                        ${Protobuf_LIBRARIES}
                         OpenSSL::SSL
                         OpenSSL::Crypto
-                        ${LIBUSB_1_LIBRARIES}
-                        ${WINSOCK2_LIBRARIES})
+        libusb-1.0.a)
 
 install(TARGETS aasdk LIBRARY DESTINATION lib)
 install(DIRECTORY include/f1x/aasdk DESTINATION include/f1x)
