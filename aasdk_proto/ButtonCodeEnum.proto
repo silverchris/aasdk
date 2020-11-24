@@ -16,7 +16,7 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-syntax = "proto3";
+syntax="proto2";
 
 package f1x.aasdk.proto.enums;
 
@@ -43,13 +43,13 @@ message ButtonCode
         PLAY = 0x7E;
         PAUSE = 0x7F;
         MUSIC = 0xD1;
-        SCROLL_WHEEL = 65536;
-        MEDIA = 65537;
-        NAVIGATION = 65538;
-        RADIO = 65539;
-        TEL = 65540;
-        PRIMARY_BUTTON = 65541;
-        SECONDARY_BUTTON = 65542;
-        TERTIARY_BUTTON = 65543;
+        SCROLL_WHEEL = 0x10000;
+        MEDIA = 0x10001;
+        NAVIGATION = 0x10002;
+        RADIO = 0x10003;
+        TEL = 0x10004;
+        PRIMARY_BUTTON = 0x10005;
+        SECONDARY_BUTTON = 0x10006;
+        TERTIARY_BUTTON = 0x10007;
     }
 }

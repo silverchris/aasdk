@@ -16,13 +16,32 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-syntax="proto2";
+syntax = "proto2";
 
-package f1x.aasdk.proto.data;
+package f1x.aasdk.proto.messages;
 
-message Speed
-{
-    required int32 speed = 1;
-    optional bool cruise_engaged = 2;
-    optional bool cruise_set_speed = 3;
-}
+message WifiSecurityReponse {
+    required string ssid = 1; //mo15384a
+    required string key = 2; //mo15385b
+    required string bssid = 3; //mo15386c
+    required SecurityMode security_mode = 4;
+    required AccessPointType access_point_type = 5;
+
+    enum SecurityMode {
+        UNKNOWN_SECURITY_MODE = 0;
+        OPEN = 1;
+        WEP_64 = 2;
+        WEP_128 = 3;
+        WPA_PERSONAL = 4;
+        WPA2_PERSONAL = 8;
+        WPA_WPA2_PERSONAL = 12;
+        WPA_ENTERPRISE = 20;
+        WPA2_ENTERPRISE = 24;
+        WPA_WPA2_ENTERPRISE = 28;
+    }
+
+    enum AccessPointType {
+        STATIC = 0;
+        DYNAMIC = 1;
+    }
+} 

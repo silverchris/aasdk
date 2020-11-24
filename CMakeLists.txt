@@ -36,7 +36,6 @@ set(AASDK_PROTO_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${AASDK_PROTO_INCLUDE_DIRS}
                         ${Boost_INCLUDE_DIRS}
-                        ${LIBUSB_1_INCLUDE_DIRS}
                         ${PROTOBUF_INCLUDE_DIR}
                         ${OPENSSL_INCLUDE_DIR}
                         ${GTEST_INCLUDE_DIRS}
@@ -56,17 +55,12 @@ add_library(aasdk STATIC
                 ${include_files})
 
 add_dependencies(aasdk aasdk_proto)
-target_link_libraries(aasdk
+target_link_libraries(aasdk libusb
                         aasdk_proto
-                        Boost::system
-                        Boost::log
-                        ${Protobuf_LIBRARIES}
-                        OpenSSL::SSL
-                        OpenSSL::Crypto
-        libusb-1.0.a)
-
-install(TARGETS aasdk LIBRARY DESTINATION lib)
-install(DIRECTORY include/f1x/aasdk DESTINATION include/f1x)
+                        ${Boost_LIBRARIES}
+                        ${PROTOBUF_LIBRARIES}
+                        ${OPENSSL_LIBRARIES}
+                        ${WINSOCK2_LIBRARIES})
 
 if(AASDK_TEST)
     include(ExternalGtest)
@@ -94,5 +88,5 @@ if(AASDK_TEST)
     endif(AASDK_CODE_COVERAGE)
 
     install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
-    
+
 endif(AASDK_TEST)
