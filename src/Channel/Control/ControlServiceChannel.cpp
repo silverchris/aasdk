@@ -18,14 +18,13 @@
 
 #include <boost/endian/conversion.hpp>
 #include <aasdk_proto/ControlMessageIdsEnum.pb.h>
-#include <f1x/aasdk/Version.hpp>
-#include <f1x/aasdk/IO/PromiseLink.hpp>
-#include <f1x/aasdk/Channel/Control/ControlServiceChannel.hpp>
-#include <f1x/aasdk/Channel/Control/IControlServiceChannelEventHandler.hpp>
-#include <f1x/aasdk/Common/Log.hpp>
+#include <aasdk/Version.hpp>
+#include <aasdk/IO/PromiseLink.hpp>
+#include <aasdk/Channel/Control/ControlServiceChannel.hpp>
+#include <aasdk/Channel/Control/IControlServiceChannelEventHandler.hpp>
+#include <aasdk/Common/Log.hpp>
 
-namespace f1x
-{
+
 namespace aasdk
 {
 namespace channel
@@ -115,6 +114,15 @@ void ControlServiceChannel::sendNavigationFocusResponse(const proto::messages::N
     this->send(std::move(message), std::move(promise));
 }
 
+void ControlServiceChannel::sendPingResponse(const proto::messages::PingResponse& request, SendPromise::Pointer promise)
+{
+    auto message(std::make_shared<messenger::Message>(channelId_, messenger::EncryptionType::PLAIN, messenger::MessageType::SPECIFIC));
+    message->insertPayload(messenger::MessageId(proto::ids::ControlMessage::PING_RESPONSE).getData());
+    message->insertPayload(request);
+
+    this->send(std::move(message), std::move(promise));
+}
+
 void ControlServiceChannel::sendPingRequest(const proto::messages::PingRequest& request, SendPromise::Pointer promise)
 {
     auto message(std::make_shared<messenger::Message>(channelId_, messenger::EncryptionType::PLAIN, messenger::MessageType::SPECIFIC));
@@ -161,8 +169,14 @@ void ControlServiceChannel::messageHandler(messenger::Message::Pointer message, 
     case proto::ids::ControlMessage::NAVIGATION_FOCUS_REQUEST:
         this->handleNavigationFocusRequest(payload, std::move(eventHandler));
         break;
+    case proto::ids::ControlMessage::PING_REQUEST:
+        this->handlePingRequest(payload, std::move(eventHandler));
+        break;
     case proto::ids::ControlMessage::PING_RESPONSE:
         this->handlePingResponse(payload, std::move(eventHandler));
+        break;
+    case proto::ids::ControlMessage::VOICE_SESSION_REQUEST:
+        this->handleVoiceSessionRequest(payload, std::move(eventHandler));
         break;
     default:
         AASDK_LOG(error) << "[ControlServiceChannel] message not handled: " << messageId.getId();
@@ -209,6 +223,19 @@ void ControlServiceChannel::handleAudioFocusRequest(const common::DataConstBuffe
     }
 }
 
+void ControlServiceChannel::handleVoiceSessionRequest(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)
+{
+    proto::messages::VoiceSessionRequest request;
+    if(request.ParseFromArray(payload.cdata, payload.size))
+    {
+        eventHandler->onVoiceSessionRequest(request);
+    }
+    else
+    {
+        eventHandler->onChannelError(error::Error(error::ErrorCode::PARSE_PAYLOAD));
+    }
+}
+
 void ControlServiceChannel::handleShutdownRequest(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)
 {
     proto::messages::ShutdownRequest request;
@@ -247,7 +274,18 @@ void ControlServiceChannel::handleNavigationFocusRequest(const common::DataConst
         eventHandler->onChannelError(error::Error(error::ErrorCode::PARSE_PAYLOAD));
     }
 }
-
+void ControlServiceChannel::handlePingRequest(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)
+{
+    proto::messages::PingRequest request;
+    if(request.ParseFromArray(payload.cdata, payload.size))
+    {
+        eventHandler->onPingRequest(request);
+    }
+    else
+    {
+        eventHandler->onChannelError(error::Error(error::ErrorCode::PARSE_PAYLOAD));
+    }
+}
 void ControlServiceChannel::handlePingResponse(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)
 {
     proto::messages::PingResponse response;
@@ -261,7 +299,6 @@ void ControlServiceChannel::handlePingResponse(const common::DataConstBuffer& pa
     }
 }
 
-}
 }
 }
 }

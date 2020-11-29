@@ -16,12 +16,11 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <f1x/aasdk/USB/AccessoryModeQueryChain.hpp>
-#include <f1x/aasdk/Error/Error.hpp>
-#include <f1x/aasdk/USB/USBEndpoint.hpp>
+#include <aasdk/USB/AccessoryModeQueryChain.hpp>
+#include <aasdk/Error/Error.hpp>
+#include <aasdk/USB/USBEndpoint.hpp>
 
-namespace f1x
-{
+
 namespace aasdk
 {
 namespace usb
@@ -57,9 +56,15 @@ void AccessoryModeQueryChain::start(DeviceHandle handle, Promise::Pointer promis
                     promise_.reset();
                 });
 
+#if BOOST_VERSION < 106600
             this->startQuery(AccessoryModeQueryType::PROTOCOL_VERSION,
                              std::make_shared<USBEndpoint>(usbWrapper_, strand_.context(), std::move(handle)),
                              std::move(queryPromise));
+#else
+            this->startQuery(AccessoryModeQueryType::PROTOCOL_VERSION,
+                             std::make_shared<USBEndpoint>(usbWrapper_, strand_.context(), std::move(handle)),
+                             std::move(queryPromise));
+#endif
         }
     });
 }
@@ -200,6 +205,5 @@ void AccessoryModeQueryChain::startQueryHandler(IUSBEndpoint::Pointer usbEndpoin
     promise_.reset();
 }
 
-}
 }
 }

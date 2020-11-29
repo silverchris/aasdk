@@ -17,10 +17,8 @@
 */
 
 #include <asio.hpp>
-#include <f1x/aasdk/TCP/TCPWrapper.hpp>
+#include <aasdk/TCP/TCPWrapper.hpp>
 
-namespace f1x
-{
 namespace aasdk
 {
 namespace tcp
@@ -56,6 +54,5 @@ asio::error_code TCPWrapper::connect(asio::ip::tcp::socket& socket, const std::s
     return ec;
 }
 
-}
 }
 }

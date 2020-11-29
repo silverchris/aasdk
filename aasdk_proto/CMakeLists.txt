@@ -15,6 +15,7 @@ target_link_libraries(aasdk_proto ${Protobuf_LITE_LIBRARIES})
 
 set_target_properties(aasdk_proto PROPERTIES PUBLIC_HEADER "${proto_headers}")
 
-install(TARGETS aasdk_proto
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include/aasdk_proto)
+install(TARGETS aasdk_proto DESTINATION lib)
+install(DIRECTORY . DESTINATION include/aasdk_proto
+    FILES_MATCHING PATTERN *.h
+    PATTERN CMakeFiles EXCLUDE )

@@ -66,6 +66,9 @@ target_link_libraries(aasdk
 install(TARGETS aasdk LIBRARY DESTINATION lib)
 install(DIRECTORY include/f1x/aasdk DESTINATION include/f1x)
 
+install(TARGETS aasdk DESTINATION lib)
+install(DIRECTORY include/aasdk DESTINATION include)
+
 if(AASDK_TEST)
     set(Boost_USE_STATIC_LIBS OFF)
     set(Boost_USE_MULTITHREADED ON)
@@ -97,5 +100,5 @@ if(AASDK_TEST)
     endif(AASDK_CODE_COVERAGE)
 
     install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
-    
+
 endif(AASDK_TEST)
