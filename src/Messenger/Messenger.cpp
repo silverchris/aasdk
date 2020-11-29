@@ -19,7 +19,6 @@
 #include <boost/endian/conversion.hpp>
 #include <f1x/aasdk/Error/Error.hpp>
 #include <f1x/aasdk/Messenger/Messenger.hpp>
-#include <f1x/aasdk/Common/Log.hpp>
 
 namespace f1x
 {
@@ -28,7 +27,7 @@ namespace aasdk
 namespace messenger
 {
 
-Messenger::Messenger(boost::asio::io_service& ioService, IMessageInStream::Pointer messageInStream, IMessageOutStream::Pointer messageOutStream)
+Messenger::Messenger(asio::io_service& ioService, IMessageInStream::Pointer messageInStream, IMessageOutStream::Pointer messageOutStream)
     : receiveStrand_(ioService)
     , sendStrand_(ioService)
     , messageInStream_(std::move(messageInStream))
@@ -42,7 +41,7 @@ void Messenger::enqueueReceive(ChannelId channelId, ReceivePromise::Pointer prom
     receiveStrand_.dispatch([this, self = this->shared_from_this(), channelId, promise = std::move(promise)]() mutable {
         if(!channelReceiveMessageQueue_.empty(channelId))
         {
-            this->parseMessage(channelReceiveMessageQueue_.pop(channelId), promise);
+            promise->resolve(channelReceiveMessageQueue_.pop(channelId));
         }
         else
         {
@@ -74,13 +73,10 @@ void Messenger::enqueueSend(Message::Pointer message, SendPromise::Pointer promi
 void Messenger::inStreamMessageHandler(Message::Pointer message)
 {
     auto channelId = message->getChannelId();
-    if (message->getChannelId() != ChannelId::VIDEO) {
-        //AASDK_LOG(debug) << channelIdToString(message->getChannelId()) << ": " << common::dump(message->getPayload());
-    }
 
     if(channelReceivePromiseQueue_.isPending(channelId))
     {
-        this->parseMessage(message, channelReceivePromiseQueue_.pop(channelId));
+        channelReceivePromiseQueue_.pop(channelId)->resolve(std::move(message));
     }
     else
     {
@@ -94,13 +90,6 @@ void Messenger::inStreamMessageHandler(Message::Pointer message)
                              std::bind(&Messenger::rejectReceivePromiseQueue, this->shared_from_this(), std::placeholders::_1));
         messageInStream_->startReceive(std::move(inStreamPromise));
     }
-}
-
-void Messenger::parseMessage(Message::Pointer message, ReceivePromise::Pointer promise) {
-    if (message->getChannelId() != ChannelId::VIDEO) {
-        //AASDK_LOG(debug) << channelIdToString(message->getChannelId()) << " " << MessageId(message->getPayload());
-    }
-    promise->resolve(message);
 }
 
 void Messenger::doSend()

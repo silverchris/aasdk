@@ -20,7 +20,7 @@
 
 #include <list>
 #include <queue>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <f1x/aasdk/Transport/ITransport.hpp>
 #include <f1x/aasdk/Transport/DataSink.hpp>
 
@@ -34,7 +34,7 @@ namespace transport
 class Transport: public ITransport, public std::enable_shared_from_this<Transport>
 {
 public:
-    Transport(boost::asio::io_service& ioService);
+    explicit Transport(asio::io_service& ioService);
 
     void receive(size_t size, ReceivePromise::Pointer promise) override;
     void send(common::Data data, SendPromise::Pointer promise) override;
@@ -56,10 +56,10 @@ protected:
 
     DataSink receivedDataSink_;
 
-    boost::asio::io_service::strand receiveStrand_;
+    asio::io_service::strand receiveStrand_;
     ReceiveQueue receiveQueue_;
 
-    boost::asio::io_service::strand sendStrand_;
+    asio::io_service::strand sendStrand_;
     SendQueue sendQueue_;
 };
 

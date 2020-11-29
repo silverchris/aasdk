@@ -27,7 +27,7 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 add_subdirectory(aasdk_proto)
 
-find_package(Boost REQUIRED COMPONENTS system log OPTIONAL_COMPONENTS unit_test_framework)
+find_package(asio REQUIRED)
 find_package(libusb-1.0 REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -35,7 +35,7 @@ find_package(OpenSSL REQUIRED)
 set(AASDK_PROTO_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${AASDK_PROTO_INCLUDE_DIRS}
-                        ${Boost_INCLUDE_DIRS}
+                        ${LIBUSB_1_INCLUDE_DIRS}
                         ${PROTOBUF_INCLUDE_DIR}
                         ${OPENSSL_INCLUDE_DIR}
                         ${GTEST_INCLUDE_DIRS}
@@ -55,14 +55,23 @@ add_library(aasdk STATIC
                 ${include_files})
 
 add_dependencies(aasdk aasdk_proto)
-target_link_libraries(aasdk libusb
+target_compile_definitions(aasdk PUBLIC HEADER_ONLY ASIO_STANDALONE GOOGLE_PROTOBUF_NO_RTTI)
+target_link_libraries(aasdk
                         aasdk_proto
-                        ${Boost_LIBRARIES}
-                        ${PROTOBUF_LIBRARIES}
-                        ${OPENSSL_LIBRARIES}
-                        ${WINSOCK2_LIBRARIES})
+                        protobuf::libprotobuf-lite
+                        OpenSSL::SSL
+                        OpenSSL::Crypto
+        libusb-1.0.a)
+
+install(TARGETS aasdk LIBRARY DESTINATION lib)
+install(DIRECTORY include/f1x/aasdk DESTINATION include/f1x)
 
 if(AASDK_TEST)
+    set(Boost_USE_STATIC_LIBS OFF)
+    set(Boost_USE_MULTITHREADED ON)
+    set(Boost_USE_STATIC_RUNTIME OFF)
+    find_package(Boost REQUIRED OPTIONAL_COMPONENTS unit_test_framework)
+
     include(ExternalGtest)
     add_executable(aasdk_ut
                     ${tests_source_files}
@@ -88,5 +97,5 @@ if(AASDK_TEST)
     endif(AASDK_CODE_COVERAGE)
 
     install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
-
+    
 endif(AASDK_TEST)

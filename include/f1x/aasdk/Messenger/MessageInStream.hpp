@@ -18,12 +18,14 @@
 
 #pragma once
 
+#include <map>
 #include <f1x/aasdk/Transport/ITransport.hpp>
 #include <f1x/aasdk/Messenger/IMessageInStream.hpp>
 #include <f1x/aasdk/Messenger/ICryptor.hpp>
 #include <f1x/aasdk/Messenger/FrameHeader.hpp>
 #include <f1x/aasdk/Messenger/FrameSize.hpp>
 #include <f1x/aasdk/Messenger/FrameType.hpp>
+
 namespace f1x
 {
 namespace aasdk
@@ -34,7 +36,7 @@ namespace messenger
 class MessageInStream: public IMessageInStream, public std::enable_shared_from_this<MessageInStream>
 {
 public:
-    MessageInStream(boost::asio::io_service& ioService, transport::ITransport::Pointer transport, ICryptor::Pointer cryptor);
+    MessageInStream(asio::io_service& ioService, transport::ITransport::Pointer transport, ICryptor::Pointer cryptor);
 
     void startReceive(ReceivePromise::Pointer promise) override;
 
@@ -45,14 +47,15 @@ private:
     void receiveFrameSizeHandler(const common::DataConstBuffer& buffer);
     void receiveFramePayloadHandler(const common::DataConstBuffer& buffer);
 
-    boost::asio::io_service::strand strand_;
+    asio::io_service::strand strand_;
     transport::ITransport::Pointer transport_;
     ICryptor::Pointer cryptor_;
     FrameType recentFrameType_;
     ReceivePromise::Pointer promise_;
     Message::Pointer message_;
+    std::map<messenger::ChannelId, Message::Pointer> messageBuffer_;
 
-    std::map<messenger::ChannelId, Message::Pointer> channel_assembly_buffers;
+    MessageInStream(const MessageInStream&) = delete;
 };
 
 }

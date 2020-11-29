@@ -25,7 +25,7 @@ namespace aasdk
 namespace usb
 {
 
-ConnectedAccessoriesEnumerator::ConnectedAccessoriesEnumerator(IUSBWrapper& usbWrapper, boost::asio::io_service& ioService, IAccessoryModeQueryChainFactory& queryChainFactory)
+ConnectedAccessoriesEnumerator::ConnectedAccessoriesEnumerator(IUSBWrapper& usbWrapper, asio::io_service& ioService, IAccessoryModeQueryChainFactory& queryChainFactory)
     : usbWrapper_(usbWrapper)
     , strand_(ioService)
     , queryChainFactory_(queryChainFactory)

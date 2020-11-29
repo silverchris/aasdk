@@ -11,7 +11,7 @@ protobuf_generate_cpp(proto_sources proto_headers ${proto_files})
 
 add_library(aasdk_proto STATIC ${proto_headers} ${proto_sources})
 
-target_link_libraries(aasdk_proto ${Protobuf_LIBRARIES})
+target_link_libraries(aasdk_proto ${Protobuf_LITE_LIBRARIES})
 
 set_target_properties(aasdk_proto PROPERTIES PUBLIC_HEADER "${proto_headers}")
 

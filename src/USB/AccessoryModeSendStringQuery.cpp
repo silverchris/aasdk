@@ -27,7 +27,7 @@ namespace aasdk
 namespace usb
 {
 
-AccessoryModeSendStringQuery::AccessoryModeSendStringQuery(boost::asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint,
+AccessoryModeSendStringQuery::AccessoryModeSendStringQuery(asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint,
                                                            AccessoryModeSendStringType sendStringType, const std::string& queryValue)
     : AccessoryModeQuery(ioService, std::move(usbEndpoint))
     , sendStringType_(std::move(sendStringType))

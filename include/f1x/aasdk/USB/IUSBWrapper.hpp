@@ -20,7 +20,7 @@
 
 #include <memory>
 #include <list>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <libusb.h>
 
 namespace f1x

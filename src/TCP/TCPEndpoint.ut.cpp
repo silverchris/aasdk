@@ -37,7 +37,7 @@ class TCPEndpointUnitTest
 {
 protected:
     TCPEndpointUnitTest()
-        : socket_(std::make_shared<boost::asio::ip::tcp::socket>(ioService_))
+        : socket_(std::make_shared<asio::ip::tcp::socket>(ioService_))
         , promise_(ITCPEndpoint::Promise::defer(ioService_))
     {
         promise_->then(std::bind(&TCPEndpointPromiseHandlerMock::onResolve, &promiseHandlerMock_, std::placeholders::_1),
@@ -46,7 +46,7 @@ protected:
 
     TCPWrapperMock tcpWrapperMock_;
     TCPEndpointPromiseHandlerMock promiseHandlerMock_;
-    boost::asio::io_service ioService_;
+    asio::io_service ioService_;
     ITCPEndpoint::SocketPointer socket_;
     ITCPEndpoint::Promise::Pointer promise_;
 };
@@ -67,7 +67,7 @@ BOOST_FIXTURE_TEST_CASE(TCPEndpoint_Receive, TCPEndpointUnitTest)
 
     EXPECT_CALL(promiseHandlerMock_, onResolve(expectedData.size()));
     EXPECT_CALL(promiseHandlerMock_, onReject(_)).Times(0);
-    handler(boost::system::error_code(), expectedData.size());
+    handler(asio::error_code(), expectedData.size());
 
     ioService_.run();
 
@@ -86,8 +86,8 @@ BOOST_FIXTURE_TEST_CASE(TCPEndpoint_ReceiveError, TCPEndpointUnitTest)
     tcpEndpoint->receive(common::DataBuffer(actualData), std::move(promise_));
 
     EXPECT_CALL(promiseHandlerMock_, onResolve(_)).Times(0);
-    EXPECT_CALL(promiseHandlerMock_, onReject(error::Error(error::ErrorCode::TCP_TRANSFER, boost::asio::error::bad_descriptor)));
-    handler(boost::asio::error::bad_descriptor, 0);
+    EXPECT_CALL(promiseHandlerMock_, onReject(error::Error(error::ErrorCode::TCP_TRANSFER, asio::error::bad_descriptor)));
+    handler(asio::error::bad_descriptor, 0);
 
     ioService_.run();
 }
@@ -104,7 +104,7 @@ BOOST_FIXTURE_TEST_CASE(TCPEndpoint_Send, TCPEndpointUnitTest)
 
     EXPECT_CALL(promiseHandlerMock_, onResolve(actualData.size()));
     EXPECT_CALL(promiseHandlerMock_, onReject(_)).Times(0);
-    handler(boost::system::error_code(), actualData.size());
+    handler(asio::error_code(), actualData.size());
 
     ioService_.run();
 }
@@ -121,7 +121,7 @@ BOOST_FIXTURE_TEST_CASE(TCPEndpoint_SendError, TCPEndpointUnitTest)
 
     EXPECT_CALL(promiseHandlerMock_, onResolve(_)).Times(0);
     EXPECT_CALL(promiseHandlerMock_, onReject(error::Error(error::ErrorCode::OPERATION_ABORTED)));
-    handler(boost::asio::error::operation_aborted, 0);
+    handler(asio::error::operation_aborted, 0);
 
     ioService_.run();
 }

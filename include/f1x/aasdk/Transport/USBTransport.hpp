@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <f1x/aasdk/Transport/Transport.hpp>
 #include <f1x/aasdk/USB/IAOAPDevice.hpp>
 
@@ -32,7 +32,7 @@ namespace transport
 class USBTransport: public Transport
 {
 public:
-    USBTransport(boost::asio::io_service& ioService, usb::IAOAPDevice::Pointer aoapDevice);
+    USBTransport(asio::io_service& ioService, usb::IAOAPDevice::Pointer aoapDevice);
 
     void stop() override;
 

@@ -26,7 +26,7 @@ namespace aasdk
 namespace channel
 {
 
-ServiceChannel::ServiceChannel(boost::asio::io_service::strand& strand,
+ServiceChannel::ServiceChannel(asio::io_service::strand& strand,
                                messenger::IMessenger::Pointer messenger,
                                messenger::ChannelId channelId)
     : strand_(strand)

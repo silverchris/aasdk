@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include <libusb.h>
 #include <list>
 #include <f1x/aasdk/USB/IUSBEndpoint.hpp>
@@ -35,14 +35,14 @@ namespace usb
 class AccessoryModeQuery: public IAccessoryModeQuery
 {
 public:
-    AccessoryModeQuery(boost::asio::io_service& ioService, IUSBEndpoint::Pointer usbEndpoint);
+    AccessoryModeQuery(asio::io_service& ioService, IUSBEndpoint::Pointer usbEndpoint);
     void cancel() override;
 
 private:
     AccessoryModeQuery(const AccessoryModeQuery&) = delete;
 
 protected:
-    boost::asio::io_service::strand strand_;
+    asio::io_service::strand strand_;
     IUSBEndpoint::Pointer usbEndpoint_;
     common::Data data_;
     Promise::Pointer promise_;

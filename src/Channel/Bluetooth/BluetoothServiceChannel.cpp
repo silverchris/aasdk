@@ -32,7 +32,7 @@ namespace channel
 namespace bluetooth
 {
 
-BluetoothServiceChannel::BluetoothServiceChannel(boost::asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger)
+BluetoothServiceChannel::BluetoothServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger)
     : ServiceChannel(strand, std::move(messenger), messenger::ChannelId::BLUETOOTH)
 {
 

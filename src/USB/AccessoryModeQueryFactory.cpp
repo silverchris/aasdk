@@ -30,7 +30,7 @@ namespace aasdk
 namespace usb
 {
 
-AccessoryModeQueryFactory::AccessoryModeQueryFactory(usb::IUSBWrapper& usbWrapper, boost::asio::io_service& ioService)
+AccessoryModeQueryFactory::AccessoryModeQueryFactory(usb::IUSBWrapper& usbWrapper, asio::io_service& ioService)
     : usbWrapper_(usbWrapper)
     , ioService_(ioService)
 {

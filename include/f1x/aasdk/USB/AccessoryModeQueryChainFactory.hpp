@@ -32,13 +32,13 @@ class AccessoryModeQueryChainFactory: public IAccessoryModeQueryChainFactory
 {
 public:
     AccessoryModeQueryChainFactory(IUSBWrapper& usbWrapper,
-                                   boost::asio::io_service& ioService,
+                                   asio::io_service& ioService,
                                    IAccessoryModeQueryFactory& queryFactory);
     IAccessoryModeQueryChain::Pointer create() override;
 
 private:
     IUSBWrapper& usbWrapper_;
-    boost::asio::io_service& ioService_;
+    asio::io_service& ioService_;
     IAccessoryModeQueryFactory& queryFactory_;
 };
 
