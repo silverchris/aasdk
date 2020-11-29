@@ -63,9 +63,6 @@ target_link_libraries(aasdk
                         OpenSSL::Crypto
         libusb-1.0.a)
 
-install(TARGETS aasdk LIBRARY DESTINATION lib)
-install(DIRECTORY include/f1x/aasdk DESTINATION include/f1x)
-
 install(TARGETS aasdk DESTINATION lib)
 install(DIRECTORY include/aasdk DESTINATION include)
 
