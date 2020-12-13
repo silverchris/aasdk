@@ -29,6 +29,7 @@ import "NavigationChannelData.proto";
 import "VendorExtensionChannelData.proto";
 import "MediaChannelData.proto";
 import "WifiChannelData.proto";
+import "PhoneStatusChannelData.proto";
 
 package aasdk.proto.data;
 
@@ -42,6 +43,7 @@ message ChannelDescriptor
     optional BluetoothChannel bluetooth_channel = 6;
     optional NavigationChannel navigation_channel = 8;
     optional MediaInfoChannel media_infoChannel = 9;
+    optional PhoneStatusChannel phone_status_channel = 10;
     optional VendorExtensionChannel vendor_extension_channel = 12;
     optional WifiChannel wifi_channel=16;
 }
