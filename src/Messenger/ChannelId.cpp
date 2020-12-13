@@ -46,6 +46,8 @@ std::string channelIdToString(ChannelId channelId)
         return "AV_INPUT";
     case ChannelId::BLUETOOTH:
         return "BLUETOOTH";
+    case ChannelId::PHONE_STATUS:
+        return "PHONE_STATUS";
     case ChannelId::NONE:
         return "NONE";
     default:

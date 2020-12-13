@@ -32,7 +32,7 @@ namespace aasdk
         {
 
             PhoneStatusServiceChannel::PhoneStatusServiceChannel(asio::io_service::strand& strand,  messenger::IMessenger::Pointer messenger)
-                    : ServiceChannel(strand, std::move(messenger), messenger::ChannelId::SENSOR)
+                    : ServiceChannel(strand, std::move(messenger), messenger::ChannelId::PHONE_STATUS)
             {
 
             }

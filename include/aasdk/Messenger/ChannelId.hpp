@@ -37,6 +37,7 @@ enum class ChannelId
     SYSTEM_AUDIO,
     AV_INPUT,
     BLUETOOTH,
+    PHONE_STATUS,
     NONE = 255
 };
 
