@@ -210,11 +210,38 @@ void ControlServiceChannel::handleServiceDiscoveryRequest(const common::DataCons
     }
 }
 
+
+void logUnknownFields(const ::google::protobuf::UnknownFieldSet& fields) {
+  for (int i = 0; i < fields.field_count(); i++) {
+    switch (fields.field(i).type()) {
+      case 0: // TYPE_VARINT
+        AASDK_LOG(debug) << "ExtraField: number: " << fields.field(i).number() << " , type: 0, value: " << fields.field(i).varint();
+        break;
+      case 1: // TYPE_FIXED32
+        AASDK_LOG(debug) << "ExtraField: number: " << fields.field(i).number() << " , type: 1, value: " << fields.field(i).fixed32();
+        break;
+      case 2: // TYPE_FIXED64
+        AASDK_LOG(debug) << "ExtraField: number: " << fields.field(i).number() << " , type: 2, value: " << fields.field(i).fixed64();
+        break;
+      case 3: // TYPE_LENGTH_DELIMITED
+        AASDK_LOG(debug) << "ExtraField: number: " << fields.field(i).number() << " , type: 3, value: " << &(fields.field(i).length_delimited());
+        break;
+      case 4: // TYPE_GROUP
+        AASDK_LOG(debug) << "ExtraField: number: " << fields.field(i).number() << " , type: 4";
+        break;
+      default:
+        AASDK_LOG(debug) << "ExtraField: number: " << fields.field(i).number() << " , type: " << fields.field(i).type();
+        break;
+    }
+  }
+}
+
 void ControlServiceChannel::handleAudioFocusRequest(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)
 {
     proto::messages::AudioFocusRequest request;
     if(request.ParseFromArray(payload.cdata, payload.size))
     {
+      logUnknownFields(request.unknown_fields());
         eventHandler->onAudioFocusRequest(request);
     }
     else
