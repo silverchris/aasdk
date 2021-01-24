@@ -22,18 +22,14 @@
 #include <aasdk/Common/Data.hpp>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-class ICryptor
-{
-public:
-    typedef std::shared_ptr<ICryptor> Pointer;
+class ICryptor {
+ public:
+  typedef std::shared_ptr<ICryptor> Pointer;
 
-    ICryptor() = default;
-    virtual ~ICryptor() = default;
+  ICryptor() = default;
+  virtual ~ICryptor() = default;
 
     virtual void init() = 0;
     virtual void deinit() = 0;
@@ -45,5 +41,4 @@ public:
     virtual bool isActive() const = 0;
 };
 
-}
 }

@@ -26,19 +26,15 @@
 #include <aasdk/Messenger/FrameSize.hpp>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-class MessageOutStream: public IMessageOutStream, public std::enable_shared_from_this<MessageOutStream>
-{
-public:
-    MessageOutStream(asio::io_service& ioService, transport::ITransport::Pointer transport, ICryptor::Pointer cryptor);
+class MessageOutStream : public IMessageOutStream, public std::enable_shared_from_this<MessageOutStream> {
+ public:
+  MessageOutStream(asio::io_service &ioService, transport::ITransport::Pointer transport, ICryptor::Pointer cryptor);
 
-    void stream(Message::Pointer message, SendPromise::Pointer promise) override;
+  void stream(Message::Pointer message, SendPromise::Pointer promise) override;
 
-private:
+ private:
     using std::enable_shared_from_this<MessageOutStream>::shared_from_this;
 
     void streamSplittedMessage();
@@ -61,5 +57,4 @@ private:
     MessageOutStream(const MessageOutStream&) = delete;
 };
 
-}
 }

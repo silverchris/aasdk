@@ -28,20 +28,14 @@
 #include <aasdk/Channel/AV/IVideoServiceChannelEventHandler.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class IVideoServiceChannel
-{
-public:
-    typedef std::shared_ptr<IVideoServiceChannel> Pointer;
+class IVideoServiceChannel {
+ public:
+  typedef std::shared_ptr<IVideoServiceChannel> Pointer;
 
-    IVideoServiceChannel() = default;
-    virtual ~IVideoServiceChannel() = default;
+  IVideoServiceChannel() = default;
+  virtual ~IVideoServiceChannel() = default;
 
     virtual void receive(IVideoServiceChannelEventHandler::Pointer eventHandler) = 0;
     virtual void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) = 0;
@@ -51,6 +45,4 @@ public:
     virtual messenger::ChannelId getId() const = 0;
 };
 
-}
-}
 }

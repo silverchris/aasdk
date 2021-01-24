@@ -22,21 +22,19 @@
 #include <aasdk/Channel/Bluetooth/IBluetoothServiceChannel.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace bluetooth
-{
+namespace aasdk::channel::bluetooth {
 
-class BluetoothServiceChannel: public IBluetoothServiceChannel, public ServiceChannel, public std::enable_shared_from_this<BluetoothServiceChannel>
-{
-public:
-    BluetoothServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
+class BluetoothServiceChannel
+    : public IBluetoothServiceChannel,
+      public ServiceChannel,
+      public std::enable_shared_from_this<BluetoothServiceChannel> {
+ public:
+  BluetoothServiceChannel(asio::io_service::strand &strand, messenger::IMessenger::Pointer messenger);
 
-    void receive(IBluetoothServiceChannelEventHandler::Pointer eventHandler) override;
-    messenger::ChannelId getId() const override;
-    void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) override;
+  void receive(IBluetoothServiceChannelEventHandler::Pointer eventHandler) override;
+  messenger::ChannelId getId() const override;
+  void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse &response,
+                               SendPromise::Pointer promise) override;
     void sendBluetoothPairingResponse(const proto::messages::BluetoothPairingResponse& response, SendPromise::Pointer promise) override;
 
 private:
@@ -46,6 +44,4 @@ private:
     void handleBluetoothPairingRequest(const common::DataConstBuffer& payload, IBluetoothServiceChannelEventHandler::Pointer eventHandler);
 };
 
-}
-}
 }

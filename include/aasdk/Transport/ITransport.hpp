@@ -23,19 +23,15 @@
 #include <aasdk/IO/Promise.hpp>
 
 
-namespace aasdk
-{
-namespace transport
-{
+namespace aasdk::transport {
 
-class ITransport
-{
-public:
-    typedef std::shared_ptr<ITransport> Pointer;
-    typedef io::Promise<common::Data> ReceivePromise;
-    typedef io::Promise<void> SendPromise;
+class ITransport {
+ public:
+  typedef std::shared_ptr<ITransport> Pointer;
+  typedef io::Promise<common::Data> ReceivePromise;
+  typedef io::Promise<void> SendPromise;
 
-    ITransport() = default;
+  ITransport() = default;
     virtual ~ITransport() = default;
 
     virtual void receive(size_t size, ReceivePromise::Pointer promise) = 0;
@@ -43,5 +39,4 @@ public:
     virtual void stop() = 0;
 };
 
-}
 }

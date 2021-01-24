@@ -25,19 +25,18 @@
 #include <aasdk/USB/IAOAPDevice.hpp>
 
 
-namespace aasdk
-{
-namespace usb
-{
+namespace aasdk::usb {
 
-class AOAPDevice: public IAOAPDevice
-{
-public:
-    AOAPDevice(IUSBWrapper& usbWrapper, asio::io_service& ioService, DeviceHandle handle, const libusb_interface_descriptor* interfaceDescriptor);
-    ~AOAPDevice() override;
+class AOAPDevice : public IAOAPDevice {
+ public:
+  AOAPDevice(IUSBWrapper &usbWrapper,
+             asio::io_service &ioService,
+             DeviceHandle handle,
+             const libusb_interface_descriptor *interfaceDescriptor);
+  ~AOAPDevice() override;
 
-    IUSBEndpoint& getInEndpoint() override;
-    IUSBEndpoint& getOutEndpoint() override;
+  IUSBEndpoint &getInEndpoint() override;
+  IUSBEndpoint &getOutEndpoint() override;
 
     static IAOAPDevice::Pointer create(IUSBWrapper& usbWrapper, asio::io_service& ioService, DeviceHandle handle);
 
@@ -59,5 +58,4 @@ private:
     AOAPDevice(const AOAPDevice&) = delete;
 };
 
-}
 }

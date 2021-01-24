@@ -22,21 +22,18 @@
 #include <aasdk/Channel/Input/IInputServiceChannel.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace input
-{
+namespace aasdk::channel::input {
 
-class InputServiceChannel: public IInputServiceChannel, public ServiceChannel, public std::enable_shared_from_this<InputServiceChannel>
-{
+class InputServiceChannel
+    : public IInputServiceChannel, public ServiceChannel, public std::enable_shared_from_this<InputServiceChannel> {
  public:
-    InputServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
+  InputServiceChannel(asio::io_service::strand &strand, messenger::IMessenger::Pointer messenger);
 
-    void receive(IInputServiceChannelEventHandler::Pointer eventHandler) override;
-    void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) override;
-    void sendInputEventIndication(const proto::messages::InputEventIndication& indication, SendPromise::Pointer promise) override;
+  void receive(IInputServiceChannelEventHandler::Pointer eventHandler) override;
+  void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse &response,
+                               SendPromise::Pointer promise) override;
+  void sendInputEventIndication(const proto::messages::InputEventIndication &indication,
+                                SendPromise::Pointer promise) override;
     void sendBindingResponse(const proto::messages::BindingResponse& response, SendPromise::Pointer promise) override;
     messenger::ChannelId getId() const override;
 
@@ -47,6 +44,4 @@ private:
     void handleChannelOpenRequest(const common::DataConstBuffer& payload, IInputServiceChannelEventHandler::Pointer eventHandler);
 };
 
-}
-}
 }

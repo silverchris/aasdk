@@ -21,22 +21,17 @@
 #include <aasdk/USB/IUSBEndpoint.hpp>
 
 
-namespace aasdk
-{
-namespace usb
-{
+namespace aasdk::usb {
 
-class IAOAPDevice
-{
-public:
-    typedef std::shared_ptr<IAOAPDevice> Pointer;
+class IAOAPDevice {
+ public:
+  typedef std::shared_ptr<IAOAPDevice> Pointer;
 
-    IAOAPDevice() = default;
-    virtual ~IAOAPDevice() = default;
+  IAOAPDevice() = default;
+  virtual ~IAOAPDevice() = default;
 
     virtual IUSBEndpoint& getInEndpoint() = 0;
     virtual IUSBEndpoint& getOutEndpoint() = 0;
 };
 
-}
 }

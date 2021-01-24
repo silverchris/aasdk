@@ -27,20 +27,14 @@
 #include <aasdk/Channel/Sensor/ISensorServiceChannelEventHandler.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace sensor
-{
+namespace aasdk::channel::sensor {
 
-class ISensorServiceChannel
-{
-public:
-    typedef std::shared_ptr<ISensorServiceChannel> Pointer;
+class ISensorServiceChannel {
+ public:
+  typedef std::shared_ptr<ISensorServiceChannel> Pointer;
 
-    ISensorServiceChannel() = default;
-    virtual ~ISensorServiceChannel() = default;
+  ISensorServiceChannel() = default;
+  virtual ~ISensorServiceChannel() = default;
 
     virtual void receive(ISensorServiceChannelEventHandler::Pointer eventHandler) = 0;
     virtual messenger::ChannelId getId() const = 0;
@@ -49,6 +43,4 @@ public:
     virtual void sendSensorStartResponse(const proto::messages::SensorStartResponseMessage& response, SendPromise::Pointer promise) = 0;
 };
 
-}
-}
 }

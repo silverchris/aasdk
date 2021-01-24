@@ -25,23 +25,18 @@
 #include <aasdk/Messenger/Promise.hpp>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-class IMessenger
-{
-public:
-    IMessenger() = default;
-    virtual ~IMessenger() = default;
+class IMessenger {
+ public:
+  IMessenger() = default;
+  virtual ~IMessenger() = default;
 
-    typedef std::shared_ptr<IMessenger> Pointer;
+  typedef std::shared_ptr<IMessenger> Pointer;
 
     virtual void enqueueReceive(ChannelId channelId, ReceivePromise::Pointer promise) = 0;
     virtual void enqueueSend(Message::Pointer message, SendPromise::Pointer promise) = 0;
     virtual void stop() = 0;
 };
 
-}
 }

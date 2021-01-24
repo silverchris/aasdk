@@ -22,21 +22,16 @@
 #include <aasdk/Messenger/Promise.hpp>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-class IMessageInStream
-{
-public:
-    typedef std::shared_ptr<IMessageInStream> Pointer;
+class IMessageInStream {
+ public:
+  typedef std::shared_ptr<IMessageInStream> Pointer;
 
-    IMessageInStream() = default;
-    virtual ~IMessageInStream() = default;
+  IMessageInStream() = default;
+  virtual ~IMessageInStream() = default;
 
     virtual void startReceive(ReceivePromise::Pointer promise) = 0;
 };
 
-}
 }

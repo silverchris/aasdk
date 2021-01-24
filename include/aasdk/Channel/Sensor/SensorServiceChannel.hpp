@@ -22,21 +22,17 @@
 #include <aasdk/Channel/Sensor/ISensorServiceChannel.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace sensor
-{
+namespace aasdk::channel::sensor {
 
-class SensorServiceChannel: public ISensorServiceChannel, public ServiceChannel, public std::enable_shared_from_this<SensorServiceChannel>
-{
-public:
-    SensorServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
+class SensorServiceChannel
+    : public ISensorServiceChannel, public ServiceChannel, public std::enable_shared_from_this<SensorServiceChannel> {
+ public:
+  SensorServiceChannel(asio::io_service::strand &strand, messenger::IMessenger::Pointer messenger);
 
-    void receive(ISensorServiceChannelEventHandler::Pointer eventHandler) override;
-    messenger::ChannelId getId() const override;
-    void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) override;
+  void receive(ISensorServiceChannelEventHandler::Pointer eventHandler) override;
+  messenger::ChannelId getId() const override;
+  void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse &response,
+                               SendPromise::Pointer promise) override;
     void sendSensorEventIndication(const proto::messages::SensorEventIndication& indication, SendPromise::Pointer promise) override;
     void sendSensorStartResponse(const proto::messages::SensorStartResponseMessage& response, SendPromise::Pointer promise) override;
 
@@ -47,6 +43,4 @@ private:
     void handleChannelOpenRequest(const common::DataConstBuffer& payload, ISensorServiceChannelEventHandler::Pointer eventHandler);
 };
 
-}
-}
 }

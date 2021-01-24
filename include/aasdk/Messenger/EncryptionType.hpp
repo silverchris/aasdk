@@ -19,16 +19,11 @@
 #pragma once
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-enum class EncryptionType
-{
-    PLAIN,
-    ENCRYPTED = 1 << 3
+enum class EncryptionType {
+  PLAIN,
+  ENCRYPTED = 1 << 3
 };
 
-}
 }

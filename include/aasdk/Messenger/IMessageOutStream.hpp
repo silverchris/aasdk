@@ -23,21 +23,16 @@
 #include <aasdk/Messenger/Promise.hpp>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-class IMessageOutStream
-{
-public:
-    typedef std::shared_ptr<IMessageOutStream> Pointer;
+class IMessageOutStream {
+ public:
+  typedef std::shared_ptr<IMessageOutStream> Pointer;
 
-    IMessageOutStream() = default;
-    virtual ~IMessageOutStream() = default;
+  IMessageOutStream() = default;
+  virtual ~IMessageOutStream() = default;
 
     virtual void stream(Message::Pointer message, SendPromise::Pointer promise) = 0;
 };
 
-}
 }

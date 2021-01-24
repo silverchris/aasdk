@@ -21,19 +21,15 @@
 #include <string>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-enum class ChannelId
-{
-    CONTROL,
-    INPUT,
-    SENSOR,
-    VIDEO,
-    MEDIA_AUDIO,
-    SPEECH_AUDIO,
+enum class ChannelId {
+  CONTROL,
+  INPUT,
+  SENSOR,
+  VIDEO,
+  MEDIA_AUDIO,
+  SPEECH_AUDIO,
     SYSTEM_AUDIO,
     AV_INPUT,
     BLUETOOTH,
@@ -43,5 +39,4 @@ enum class ChannelId
 
 std::string channelIdToString(ChannelId channelId);
 
-}
 }

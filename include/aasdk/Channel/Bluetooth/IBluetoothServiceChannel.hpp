@@ -26,20 +26,14 @@
 #include <aasdk/Channel/Bluetooth/IBluetoothServiceChannelEventHandler.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace bluetooth
-{
+namespace aasdk::channel::bluetooth {
 
-class IBluetoothServiceChannel
-{
-public:
-    typedef std::shared_ptr<IBluetoothServiceChannel> Pointer;
+class IBluetoothServiceChannel {
+ public:
+  typedef std::shared_ptr<IBluetoothServiceChannel> Pointer;
 
-    IBluetoothServiceChannel() = default;
-    virtual ~IBluetoothServiceChannel() = default;
+  IBluetoothServiceChannel() = default;
+  virtual ~IBluetoothServiceChannel() = default;
 
     virtual void receive(IBluetoothServiceChannelEventHandler::Pointer eventHandler) = 0;
     virtual void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) = 0;
@@ -47,6 +41,4 @@ public:
     virtual messenger::ChannelId getId() const = 0;
 };
 
-}
-}
 }

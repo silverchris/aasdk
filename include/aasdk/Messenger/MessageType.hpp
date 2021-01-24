@@ -23,16 +23,11 @@
 #include <stdint.h>
 
 
-namespace aasdk
-{
-namespace messenger
-{
+namespace aasdk::messenger {
 
-enum class MessageType
-{
-    SPECIFIC = 0,
-    CONTROL = 1 << 2
+enum class MessageType {
+  SPECIFIC = 0,
+  CONTROL = 1 << 2
 };
 
-}
 }

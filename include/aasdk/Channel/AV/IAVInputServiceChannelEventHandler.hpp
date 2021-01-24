@@ -25,20 +25,14 @@
 #include <aasdk/Error/Error.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class IAVInputServiceChannelEventHandler
-{
-public:
-    typedef std::shared_ptr<IAVInputServiceChannelEventHandler> Pointer;
+class IAVInputServiceChannelEventHandler {
+ public:
+  typedef std::shared_ptr<IAVInputServiceChannelEventHandler> Pointer;
 
-    IAVInputServiceChannelEventHandler() = default;
-    virtual ~IAVInputServiceChannelEventHandler() = default;
+  IAVInputServiceChannelEventHandler() = default;
+  virtual ~IAVInputServiceChannelEventHandler() = default;
 
     virtual void onChannelOpenRequest(const proto::messages::ChannelOpenRequest& request) = 0;
     virtual void onAVChannelSetupRequest(const proto::messages::AVChannelSetupRequest& request) = 0;
@@ -47,6 +41,4 @@ public:
     virtual void onChannelError(const error::Error& e) = 0;
 };
 
-}
-}
 }

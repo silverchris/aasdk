@@ -27,20 +27,14 @@
 #include <aasdk/Channel/AV/IAudioServiceChannelEventHandler.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class IAudioServiceChannel
-{
-public:
-    typedef std::shared_ptr<IAudioServiceChannel> Pointer;
+class IAudioServiceChannel {
+ public:
+  typedef std::shared_ptr<IAudioServiceChannel> Pointer;
 
-    IAudioServiceChannel() = default;
-    virtual ~IAudioServiceChannel() = default;
+  IAudioServiceChannel() = default;
+  virtual ~IAudioServiceChannel() = default;
 
     virtual void receive(IAudioServiceChannelEventHandler::Pointer eventHandler) = 0;
     virtual void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) = 0;
@@ -49,6 +43,4 @@ public:
     virtual messenger::ChannelId getId() const = 0;
 };
 
-}
-}
 }

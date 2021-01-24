@@ -23,21 +23,16 @@
 #include <aasdk/Channel/ServiceChannel.hpp>
 #include <aasdk/Channel/Control/IControlServiceChannel.hpp>
 
-namespace aasdk
-{
-namespace channel
-{
-namespace control
-{
+namespace aasdk::channel::control {
 
-class ControlServiceChannel: public IControlServiceChannel, public ServiceChannel, public std::enable_shared_from_this<ControlServiceChannel>
-{
-public:
-    ControlServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
+class ControlServiceChannel
+    : public IControlServiceChannel, public ServiceChannel, public std::enable_shared_from_this<ControlServiceChannel> {
+ public:
+  ControlServiceChannel(asio::io_service::strand &strand, messenger::IMessenger::Pointer messenger);
 
-    void receive(IControlServiceChannelEventHandler::Pointer eventHandler) override;
+  void receive(IControlServiceChannelEventHandler::Pointer eventHandler) override;
 
-    void sendVersionRequest(SendPromise::Pointer promise) override;
+  void sendVersionRequest(SendPromise::Pointer promise) override;
     void sendHandshake(common::Data handshakeBuffer, SendPromise::Pointer promise) override;
     void sendAuthComplete(const proto::messages::AuthCompleteIndication& response, SendPromise::Pointer promise) override;
     void sendServiceDiscoveryResponse(const proto::messages::ServiceDiscoveryResponse& response, SendPromise::Pointer promise) override;
@@ -63,6 +58,4 @@ private:
     void handleVoiceSessionRequest(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler);
 };
 
-}
-}
 }

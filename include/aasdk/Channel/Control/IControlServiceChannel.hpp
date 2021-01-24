@@ -32,20 +32,14 @@
 #include <aasdk/Channel/Control/IControlServiceChannelEventHandler.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace control
-{
+namespace aasdk::channel::control {
 
-class IControlServiceChannel
-{
-public:
-    typedef std::shared_ptr<IControlServiceChannel> Pointer;
+class IControlServiceChannel {
+ public:
+  typedef std::shared_ptr<IControlServiceChannel> Pointer;
 
-    IControlServiceChannel() = default;
-    virtual ~IControlServiceChannel() = default;
+  IControlServiceChannel() = default;
+  virtual ~IControlServiceChannel() = default;
 
     virtual void receive(IControlServiceChannelEventHandler::Pointer eventHandler) = 0;
 
@@ -61,6 +55,4 @@ public:
     virtual void sendPingResponse(const proto::messages::PingResponse& response, SendPromise::Pointer promise) = 0;
 };
 
-}
-}
 }

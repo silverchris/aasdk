@@ -21,19 +21,11 @@
 #include <aasdk/Channel/AV/AudioServiceChannel.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class MediaAudioServiceChannel: public AudioServiceChannel
-{
-public:
-    MediaAudioServiceChannel(asio::io_service::strand& strand, messenger::IMessenger::Pointer messenger);
+class MediaAudioServiceChannel : public AudioServiceChannel {
+ public:
+  MediaAudioServiceChannel(asio::io_service::strand &strand, messenger::IMessenger::Pointer messenger);
 };
 
-}
-}
 }

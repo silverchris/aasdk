@@ -32,20 +32,14 @@
 
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace control
-{
+namespace aasdk::channel::control {
 
-class IControlServiceChannelEventHandler
-{
-public:
-    typedef std::shared_ptr<IControlServiceChannelEventHandler> Pointer;
+class IControlServiceChannelEventHandler {
+ public:
+  typedef std::shared_ptr<IControlServiceChannelEventHandler> Pointer;
 
-    IControlServiceChannelEventHandler() = default;
-    virtual ~IControlServiceChannelEventHandler() = default;
+  IControlServiceChannelEventHandler() = default;
+  virtual ~IControlServiceChannelEventHandler() = default;
 
     virtual void onVersionResponse(uint16_t majorCode, uint16_t minorCode, proto::enums::VersionResponseStatus::Enum status) = 0;
     virtual void onHandshake(const common::DataConstBuffer& payload) = 0;
@@ -60,6 +54,4 @@ public:
     virtual void onVoiceSessionRequest(const proto::messages::VoiceSessionRequest& request) = 0;
 };
 
-}
-}
 }

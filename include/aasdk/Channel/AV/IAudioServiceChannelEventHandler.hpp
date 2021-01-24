@@ -28,20 +28,14 @@
 #include <aasdk/Error/Error.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class IAudioServiceChannelEventHandler
-{
-public:
-    typedef std::shared_ptr<IAudioServiceChannelEventHandler> Pointer;
+class IAudioServiceChannelEventHandler {
+ public:
+  typedef std::shared_ptr<IAudioServiceChannelEventHandler> Pointer;
 
-    IAudioServiceChannelEventHandler() = default;
-    virtual ~IAudioServiceChannelEventHandler() = default;
+  IAudioServiceChannelEventHandler() = default;
+  virtual ~IAudioServiceChannelEventHandler() = default;
 
     virtual void onChannelOpenRequest(const proto::messages::ChannelOpenRequest& request) = 0;
     virtual void onAVChannelSetupRequest(const proto::messages::AVChannelSetupRequest& request) = 0;
@@ -52,6 +46,4 @@ public:
     virtual void onChannelError(const error::Error& e) = 0;
 };
 
-}
-}
 }

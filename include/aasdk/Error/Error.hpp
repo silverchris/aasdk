@@ -23,19 +23,15 @@
 #include <aasdk/Error/ErrorCode.hpp>
 
 
-namespace aasdk
-{
-namespace error
-{
+namespace aasdk::error {
 
-class Error: public std::exception
-{
-public:
-    Error();
-    Error(ErrorCode code, uint32_t nativeCode = 0);
+class Error : public std::exception {
+ public:
+  Error();
+  Error(ErrorCode code, uint32_t nativeCode = 0);
 
-    ErrorCode getCode() const;
-    uint32_t getNativeCode() const;
+  ErrorCode getCode() const;
+  uint32_t getNativeCode() const;
     const char* what() const noexcept override;
 
     bool operator!() const;
@@ -49,5 +45,4 @@ private:
     std::string message_;
 };
 
-}
 }

@@ -28,20 +28,14 @@
 #include <aasdk/Channel/AV/IAVInputServiceChannelEventHandler.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class IAVInputServiceChannel
-{
-public:
-    typedef std::shared_ptr<IAVInputServiceChannel> Pointer;
+class IAVInputServiceChannel {
+ public:
+  typedef std::shared_ptr<IAVInputServiceChannel> Pointer;
 
-    IAVInputServiceChannel() = default;
-    virtual ~IAVInputServiceChannel() = default;
+  IAVInputServiceChannel() = default;
+  virtual ~IAVInputServiceChannel() = default;
 
     virtual void receive(IAVInputServiceChannelEventHandler::Pointer eventHandler) = 0;
     virtual void sendChannelOpenResponse(const proto::messages::ChannelOpenResponse& response, SendPromise::Pointer promise) = 0;
@@ -51,6 +45,4 @@ public:
     virtual messenger::ChannelId getId() const = 0;
 };
 
-}
-}
 }

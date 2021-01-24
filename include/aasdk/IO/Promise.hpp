@@ -23,19 +23,15 @@
 #include <aasdk/Error/Error.hpp>
 #include <aasdk/IO/IOContextWrapper.hpp>
 
-namespace aasdk
-{
-namespace io
-{
+namespace aasdk::io {
 
 template<typename ResolveArgumentType, typename ErrorArgumentType = error::Error>
-class Promise
-{
-public:
-    typedef ResolveArgumentType ValueType;
-    typedef ErrorArgumentType ErrorType;
-    typedef std::function<void(ResolveArgumentType)> ResolveHandler;
-    typedef std::function<void(ErrorArgumentType)> RejectHandler;
+class Promise {
+ public:
+  typedef ResolveArgumentType ValueType;
+  typedef ErrorArgumentType ErrorType;
+  typedef std::function<void(ResolveArgumentType)> ResolveHandler;
+  typedef std::function<void(ErrorArgumentType)> RejectHandler;
     typedef std::shared_ptr<Promise> Pointer;
 
     static Pointer defer(asio::io_service& ioService)
@@ -361,5 +357,4 @@ private:
 };
 
 
-}
 }

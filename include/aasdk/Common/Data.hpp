@@ -24,19 +24,15 @@
 #include <stdint.h>
 
 
-namespace aasdk
-{
-namespace common
-{
+namespace aasdk::common {
 
 typedef std::vector<uint8_t> Data;
 
 static constexpr size_t cStaticDataSize = 30 * 1024 * 1024;
 
-struct DataBuffer
-{
-    DataBuffer();
-    DataBuffer(Data::value_type* _data, Data::size_type _size, Data::size_type offset = 0);
+struct DataBuffer {
+  DataBuffer();
+  DataBuffer(Data::value_type *_data, Data::size_type _size, Data::size_type offset = 0);
     DataBuffer(void* _data, Data::size_type _size, Data::size_type offset = 0);
     explicit DataBuffer(Data& _data, Data::size_type offset = 0);
     bool operator==(const std::nullptr_t&) const;
@@ -81,5 +77,4 @@ common::Data createData(const DataConstBuffer& buffer);
 std::string dump(const Data& data);
 std::string dump(const DataConstBuffer& buffer);
 
-}
 }

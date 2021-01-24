@@ -22,18 +22,14 @@
 #include <asio/ip/tcp.hpp>
 #include <aasdk/Common/Data.hpp>
 
-namespace aasdk
-{
-namespace tcp
-{
+namespace aasdk::tcp {
 
-class ITCPWrapper
-{
-public:
-    typedef std::function<void(const asio::error_code&, size_t)> Handler;
-    typedef std::function<void(const asio::error_code&)> ConnectHandler;
+class ITCPWrapper {
+ public:
+  typedef std::function<void(const asio::error_code &, size_t)> Handler;
+  typedef std::function<void(const asio::error_code &)> ConnectHandler;
 
-    virtual ~ITCPWrapper() = default;
+  virtual ~ITCPWrapper() = default;
 
     virtual void asyncWrite(asio::ip::tcp::socket& socket, common::DataConstBuffer buffer, Handler handler) = 0;
     virtual void asyncRead(asio::ip::tcp::socket& socket, common::DataBuffer buffer, Handler handler) = 0;
@@ -42,5 +38,4 @@ public:
     virtual asio::error_code connect(asio::ip::tcp::socket& socket, const std::string& hostname, uint16_t port) = 0;
 };
 
-}
 }

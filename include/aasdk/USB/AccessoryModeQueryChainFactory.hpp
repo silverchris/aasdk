@@ -22,18 +22,14 @@
 #include <aasdk/USB/IAccessoryModeQueryFactory.hpp>
 
 
-namespace aasdk
-{
-namespace usb
-{
+namespace aasdk::usb {
 
-class AccessoryModeQueryChainFactory: public IAccessoryModeQueryChainFactory
-{
-public:
-    AccessoryModeQueryChainFactory(IUSBWrapper& usbWrapper,
-                                   asio::io_service& ioService,
-                                   IAccessoryModeQueryFactory& queryFactory);
-    IAccessoryModeQueryChain::Pointer create() override;
+class AccessoryModeQueryChainFactory : public IAccessoryModeQueryChainFactory {
+ public:
+  AccessoryModeQueryChainFactory(IUSBWrapper &usbWrapper,
+                                 asio::io_service &ioService,
+                                 IAccessoryModeQueryFactory &queryFactory);
+  IAccessoryModeQueryChain::Pointer create() override;
 
 private:
     IUSBWrapper& usbWrapper_;
@@ -41,5 +37,4 @@ private:
     IAccessoryModeQueryFactory& queryFactory_;
 };
 
-}
 }

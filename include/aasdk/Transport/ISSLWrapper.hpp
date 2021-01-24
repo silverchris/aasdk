@@ -22,19 +22,15 @@
 #include <openssl/ssl.h>
 
 
-namespace aasdk
-{
-namespace transport
-{
+namespace aasdk::transport {
 
-class ISSLWrapper
-{
-public:
-    typedef std::pair<BIO*, BIO*> BIOs;
-    typedef std::shared_ptr<ISSLWrapper> Pointer;
+class ISSLWrapper {
+ public:
+  typedef std::pair<BIO *, BIO *> BIOs;
+  typedef std::shared_ptr<ISSLWrapper> Pointer;
 
-    ISSLWrapper() = default;
-    virtual ~ISSLWrapper() = default;
+  ISSLWrapper() = default;
+  virtual ~ISSLWrapper() = default;
 
     virtual X509* readCertificate(const std::string& certificate) = 0;
     virtual EVP_PKEY* readPrivateKey(const std::string& privateKey) = 0;
@@ -64,5 +60,4 @@ public:
     virtual int getError(SSL* ssl, int returnCode) = 0;
 };
 
-}
 }

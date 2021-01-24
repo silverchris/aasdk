@@ -28,20 +28,14 @@
 #include <aasdk/Error/Error.hpp>
 
 
-namespace aasdk
-{
-namespace channel
-{
-namespace av
-{
+namespace aasdk::channel::av {
 
-class IVideoServiceChannelEventHandler
-{
-public:
-    typedef std::shared_ptr<IVideoServiceChannelEventHandler> Pointer;
+class IVideoServiceChannelEventHandler {
+ public:
+  typedef std::shared_ptr<IVideoServiceChannelEventHandler> Pointer;
 
-    IVideoServiceChannelEventHandler() = default;
-    virtual ~IVideoServiceChannelEventHandler() = default;
+  IVideoServiceChannelEventHandler() = default;
+  virtual ~IVideoServiceChannelEventHandler() = default;
 
     virtual void onChannelOpenRequest(const proto::messages::ChannelOpenRequest& request) = 0;
     virtual void onAVChannelSetupRequest(const proto::messages::AVChannelSetupRequest& request) = 0;
@@ -53,6 +47,4 @@ public:
     virtual void onChannelError(const error::Error& e) = 0;
 };
 
-}
-}
 }
