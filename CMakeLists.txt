@@ -4,8 +4,18 @@ project(aasdk LANGUAGES CXX)
 option(AASDK_TEST "Build Unit Test Cases" OFF)
 option(AASDK_CODE_COVERAGE "Build with Code Coverage" OFF)
 
-set(OPENSSL_USE_STATIC_LIBS TRUE) #Statically link openssl for Mazda target
-set(Protobuf_USE_STATIC_LIBS ON) #Statically link protobuf for Mazda target
+option(AASDK_BUILD_STATIC "Build Static Libraries" ON)
+option(AASDK_BUILD_SHARED "Build Shared Libraries" OFF)
+
+if (AASDK_BUILD_STATIC)
+    #    set(OPENSSL_USE_STATIC_LIBS TRUE CACHE BOOL) #Statically link openssl for Mazda target
+    #    set(Protobuf_USE_STATIC_LIBS ON CACHE BOOL) #Statically link protobuf for Mazda target
+endif ()
+
+set(AASDK_MAIN_PROJECT OFF CACHE BOOL "Is AASDK the main project")
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+    set(AASDK_MAIN_PROJECT ON CACHE BOOL "Is AASDK the main project")
+endif ()
 
 set(base_directory ${CMAKE_CURRENT_SOURCE_DIR})
 set(sources_directory ${base_directory}/src)
@@ -35,13 +45,13 @@ find_package(OpenSSL REQUIRED)
 set(AASDK_PROTO_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR})
 
 include_directories(${AASDK_PROTO_INCLUDE_DIRS}
-                        ${LIBUSB_1_INCLUDE_DIRS}
-                        ${PROTOBUF_INCLUDE_DIR}
-                        ${OPENSSL_INCLUDE_DIR}
-                        ${GTEST_INCLUDE_DIRS}
-                        ${GMOCK_INCLUDE_DIRS}
-                        ${include_directory}
-                        ${include_ut_directory})
+        ${LIBUSB_1_INCLUDE_DIRS}
+        ${PROTOBUF_INCLUDE_DIR}
+        ${OPENSSL_INCLUDE_DIR}
+        ${GTEST_INCLUDE_DIRS}
+        ${GMOCK_INCLUDE_DIRS}
+        ${include_directory}
+        ${include_ut_directory})
 
 file(GLOB_RECURSE source_files ${sources_directory}/*.cpp)
 file(GLOB_RECURSE include_files ${include_directory}/*.hpp)
@@ -50,23 +60,45 @@ file(GLOB_RECURSE tests_include_files ${include_ut_directory}/*.hpp)
 
 list(REMOVE_ITEM source_files ${tests_source_files})
 
-add_library(aasdk STATIC
-                ${source_files}
-                ${include_files})
+add_library(aasdk OBJECT
+        ${source_files}
+        ${include_files})
 
 add_dependencies(aasdk aasdk_proto)
 target_compile_definitions(aasdk PUBLIC HEADER_ONLY ASIO_STANDALONE GOOGLE_PROTOBUF_NO_RTTI)
-target_link_libraries(aasdk
-                        aasdk_proto
-                        protobuf::libprotobuf-lite
-                        OpenSSL::SSL
-                        OpenSSL::Crypto
-        libusb-1.0.a)
+target_include_directories(aasdk PUBLIC ${include_directory})
 
-install(TARGETS aasdk DESTINATION lib)
-install(DIRECTORY include/aasdk DESTINATION include)
 
-if(AASDK_TEST)
+if (AASDK_BUILD_STATIC)
+    add_library(aasdk_static STATIC $<TARGET_OBJECTS:aasdk>)
+    target_include_directories(aasdk_static PUBLIC ${include_directory})
+    target_include_directories(aasdk_static PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+endif ()
+if (AASDK_BUILD_SHARED)
+    add_library(aasdk_shared SHARED $<TARGET_OBJECTS:aasdk>)
+    target_link_libraries(aasdk_shared
+            aasdk_proto_shared
+            protobuf::libprotobuf-lite
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            libusb-1.0)
+    target_include_directories(aasdk_shared PUBLIC ${include_directory})
+    target_include_directories(aasdk_shared PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+endif ()
+
+
+if (AASDK_MAIN_PROJECT)
+    if (AASDK_BUILD_STATIC)
+        install(TARGETS aasdk_static DESTINATION lib)
+    endif ()
+    if (AASDK_BUILD_SHARED)
+        install(TARGETS aasdk_shared DESTINATION lib)
+    endif ()
+    install(TARGETS aasdk DESTINATION lib)
+    install(DIRECTORY include/aasdk DESTINATION include)
+endif ()
+
+if (AASDK_TEST)
     set(Boost_USE_STATIC_LIBS OFF)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME OFF)
@@ -74,28 +106,28 @@ if(AASDK_TEST)
 
     include(ExternalGtest)
     add_executable(aasdk_ut
-                    ${tests_source_files}
-                    ${tests_include_files})
+            ${tests_source_files}
+            ${tests_include_files})
 
     add_dependencies(aasdk_ut aasdk googletest)
 
     target_include_directories(aasdk_ut PUBLIC ${EXT_STAGING_DIR}/include)
     target_link_directories(aasdk_ut PUBLIC ${EXT_STAGING_DIR}/lib)
     target_link_libraries(aasdk_ut
-                            aasdk
-                            Boost::unit_test_framework
-                            gmock${GTEST_DEBUG_POSTFIX}
-                            gmock_main${GTEST_DEBUG_POSTFIX}
-                            gtest${GTEST_DEBUG_POSTFIX}
-                            gtest_main${GTEST_DEBUG_POSTFIX}
-                            Threads::Threads)
+            aasdk
+            Boost::unit_test_framework
+            gmock${GTEST_DEBUG_POSTFIX}
+            gmock_main${GTEST_DEBUG_POSTFIX}
+            gtest${GTEST_DEBUG_POSTFIX}
+            gtest_main${GTEST_DEBUG_POSTFIX}
+            Threads::Threads)
 
-    if(AASDK_CODE_COVERAGE)
+    if (AASDK_CODE_COVERAGE)
         include(CodeCoverage)
         append_coverage_compiler_flags()
         setup_target_for_coverage(NAME aasdk_coverage EXECUTABLE aasdk_ut DEPENDENCIES aasdk_ut)
-    endif(AASDK_CODE_COVERAGE)
+    endif (AASDK_CODE_COVERAGE)
 
     install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
 
-endif(AASDK_TEST)
+endif (AASDK_TEST)
