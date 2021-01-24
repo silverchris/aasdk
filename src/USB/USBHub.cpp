@@ -44,7 +44,7 @@ void USBHub::start(Promise::Pointer promise)
             hotplugPromise_.reset();
         }
 
-        hotplugPromise_ = std::move(promise);
+      hotplugPromise_ = promise;
 
         if(self_ == nullptr)
         {

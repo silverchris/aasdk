@@ -28,8 +28,7 @@ namespace usb
 
 AccessoryModeSendStringQuery::AccessoryModeSendStringQuery(asio::io_service& ioService, IUSBWrapper& usbWrapper, IUSBEndpoint::Pointer usbEndpoint,
                                                            AccessoryModeSendStringType sendStringType, const std::string& queryValue)
-    : AccessoryModeQuery(ioService, std::move(usbEndpoint))
-    , sendStringType_(std::move(sendStringType))
+    : AccessoryModeQuery(ioService, std::move(usbEndpoint)), sendStringType_(sendStringType)
 {
     data_.resize(8);
     data_.insert(data_.end(), queryValue.begin(), queryValue.end());

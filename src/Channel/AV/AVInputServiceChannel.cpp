@@ -110,8 +110,8 @@ void AVInputServiceChannel::sendAVMediaWithTimestampIndication(messenger::Timest
     message->insertPayload(messenger::MessageId(proto::ids::AVChannelMessage::AV_MEDIA_WITH_TIMESTAMP_INDICATION).getData());
 
     auto timestampData = messenger::Timestamp(timestamp).getData();
-    message->insertPayload(std::move(timestampData));
-    message->insertPayload(data);
+    message->insertPayload(timestampData);
+  message->insertPayload(data);
 
     this->send(std::move(message), std::move(promise));
 }

@@ -42,12 +42,12 @@ Message::Message(Message&& other)
 
 Message& Message::operator=(Message&& other)
 {
-    channelId_ = std::move(other.channelId_);
-    encryptionType_ = std::move(other.encryptionType_);
-    type_ = std::move(other.type_);
-    payload_ = std::move(other.payload_);
+  channelId_ = other.channelId_;
+  encryptionType_ = other.encryptionType_;
+  type_ = other.type_;
+  payload_ = std::move(other.payload_);
 
-    return *this;
+  return *this;
 }
 
 ChannelId Message::getChannelId() const

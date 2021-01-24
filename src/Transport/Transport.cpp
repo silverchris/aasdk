@@ -68,7 +68,7 @@ void Transport::distributeReceivedData()
         if(receivedDataSink_.getAvailableSize() < queueElement->first)
         {
             auto buffer = receivedDataSink_.fill();
-            this->enqueueReceive(std::move(buffer));
+            this->enqueueReceive(buffer);
 
             break;
         }
