@@ -100,7 +100,7 @@ if (AASDK_MAIN_PROJECT)
 endif ()
 
 if (AASDK_TEST)
-    message("${tests_source_files}")
+    enable_testing()
     ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
     set(Boost_USE_STATIC_LIBS OFF)
     set(Boost_USE_MULTITHREADED ON)
@@ -130,6 +130,7 @@ if (AASDK_TEST)
         append_coverage_compiler_flags()
         setup_target_for_coverage(NAME aasdk_coverage EXECUTABLE aasdk_ut DEPENDENCIES aasdk_ut)
     endif (AASDK_CODE_COVERAGE)
+    add_test(NAME aasdk_test COMMAND aasdk_ut)
 
 #    install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
 
