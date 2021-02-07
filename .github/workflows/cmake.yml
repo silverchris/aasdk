@@ -19,7 +19,7 @@ jobs:
     
     - name: Install Dependencies
       shell: bash
-      run: sudo apt-get install libusb-1.0-0-dev libssl-dev libboost-all-dev libasio-dev autoconf automake libtool curl make g++ unzip libprotobuf-dev protobuf-compiler 
+      run: sudo apt-get install libusb-1.0-0-dev libssl-dev libboost-all-dev libasio-dev autoconf automake libtool curl make g++ unzip libprotobuf-dev protobuf-compiler lcov
     
 #     - name: Install Protobuf
 #       shell: bash
