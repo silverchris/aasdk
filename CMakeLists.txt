@@ -1,16 +1,11 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(aasdk LANGUAGES CXX)
 
-option(AASDK_TEST "Build Unit Test Cases" OFF)
+option(AASDK_TEST "Build Unit Test Cases" ON)
 option(AASDK_CODE_COVERAGE "Build with Code Coverage" OFF)
 
 option(AASDK_BUILD_STATIC "Build Static Libraries" ON)
-option(AASDK_BUILD_SHARED "Build Shared Libraries" OFF)
-
-if (AASDK_BUILD_STATIC)
-    #    set(OPENSSL_USE_STATIC_LIBS TRUE CACHE BOOL) #Statically link openssl for Mazda target
-    #    set(Protobuf_USE_STATIC_LIBS ON CACHE BOOL) #Statically link protobuf for Mazda target
-endif ()
+option(AASDK_BUILD_SHARED "Build Shared Libraries" ON)
 
 set(AASDK_MAIN_PROJECT OFF CACHE BOOL "Is AASDK the main project")
 if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
@@ -21,9 +16,9 @@ set(base_directory ${CMAKE_CURRENT_SOURCE_DIR})
 set(sources_directory ${base_directory}/src)
 
 set(include_directory ${base_directory}/include)
-set(include_ut_directory ${base_directory}/include_ut)
+set(include_ut_directory ${base_directory}/unit_test)
 
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -31,7 +26,11 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_INIT} -Wall -pedantic")
 
-set(Boost_USE_STATIC_LIBS ON)
+#set(Boost_USE_STATIC_LIBS ON)
+#set(Boost_USE_MULTITHREADED ON)
+#set(Boost_USE_STATIC_RUNTIME OFF)
+
+set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 
@@ -70,18 +69,20 @@ target_include_directories(aasdk PUBLIC ${include_directory})
 
 
 if (AASDK_BUILD_STATIC)
+    message("Building Static Library")
     add_library(aasdk_static STATIC $<TARGET_OBJECTS:aasdk>)
     target_include_directories(aasdk_static PUBLIC ${include_directory})
     target_include_directories(aasdk_static PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
 if (AASDK_BUILD_SHARED)
+    message("Building Shared Library")
     add_library(aasdk_shared SHARED $<TARGET_OBJECTS:aasdk>)
     target_link_libraries(aasdk_shared
             aasdk_proto_shared
-            protobuf::libprotobuf-lite
+            protobuf::libprotobuf
             OpenSSL::SSL
             OpenSSL::Crypto
-            libusb-1.0)
+            libusb)
     target_include_directories(aasdk_shared PUBLIC ${include_directory})
     target_include_directories(aasdk_shared PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 endif ()
@@ -99,27 +100,29 @@ if (AASDK_MAIN_PROJECT)
 endif ()
 
 if (AASDK_TEST)
+    message("${tests_source_files}")
+    ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
     set(Boost_USE_STATIC_LIBS OFF)
     set(Boost_USE_MULTITHREADED ON)
     set(Boost_USE_STATIC_RUNTIME OFF)
-    find_package(Boost REQUIRED OPTIONAL_COMPONENTS unit_test_framework)
+    find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 
     include(ExternalGtest)
     add_executable(aasdk_ut
             ${tests_source_files}
             ${tests_include_files})
 
-    add_dependencies(aasdk_ut aasdk googletest)
+    add_dependencies(aasdk_ut aasdk_shared googletest)
 
     target_include_directories(aasdk_ut PUBLIC ${EXT_STAGING_DIR}/include)
     target_link_directories(aasdk_ut PUBLIC ${EXT_STAGING_DIR}/lib)
     target_link_libraries(aasdk_ut
-            aasdk
+            aasdk_shared
             Boost::unit_test_framework
             gmock${GTEST_DEBUG_POSTFIX}
-            gmock_main${GTEST_DEBUG_POSTFIX}
+#            gmock_main${GTEST_DEBUG_POSTFIX}
             gtest${GTEST_DEBUG_POSTFIX}
-            gtest_main${GTEST_DEBUG_POSTFIX}
+#            gtest_main${GTEST_DEBUG_POSTFIX}
             Threads::Threads)
 
     if (AASDK_CODE_COVERAGE)
@@ -128,6 +131,6 @@ if (AASDK_TEST)
         setup_target_for_coverage(NAME aasdk_coverage EXECUTABLE aasdk_ut DEPENDENCIES aasdk_ut)
     endif (AASDK_CODE_COVERAGE)
 
-    install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
+#    install(TARGETS aasdk_ut LIBRARY DESTINATION share/aasdk)
 
 endif (AASDK_TEST)

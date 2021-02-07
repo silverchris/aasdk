@@ -17,10 +17,10 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <aasdk/USB/UT/USBWrapper.mock.hpp>
-#include <aasdk/USB/UT/AccessoryModeQueryFactory.mock.hpp>
-#include <aasdk/USB/UT/AccessoryModeQueryChainPromiseHandler.mock.hpp>
-#include <aasdk/USB/UT/AccessoryModeQuery.mock.hpp>
+#include <USB/UT/USBWrapper.mock.hpp>
+#include <USB/UT/AccessoryModeQueryFactory.mock.hpp>
+#include <USB/UT/AccessoryModeQueryChainPromiseHandler.mock.hpp>
+#include <USB/UT/AccessoryModeQuery.mock.hpp>
 #include <aasdk/USB/AccessoryModeQueryChain.hpp>
 
 

@@ -17,9 +17,9 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <aasdk/Transport/UT/Transport.mock.hpp>
-#include <aasdk/Messenger/UT/Cryptor.mock.hpp>
-#include <aasdk/Messenger/UT/SendPromiseHandler.mock.hpp>
+#include <Transport/UT/Transport.mock.hpp>
+#include <Messenger/UT/Cryptor.mock.hpp>
+#include <Messenger/UT/SendPromiseHandler.mock.hpp>
 #include <aasdk/Messenger/Promise.hpp>
 #include <aasdk/Messenger/MessageOutStream.hpp>
 

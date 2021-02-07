@@ -17,10 +17,10 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <aasdk/USB/UT/USBEndpoint.mock.hpp>
-#include <aasdk/USB/UT/AOAPDevice.mock.hpp>
-#include <aasdk/Transport/UT/TransportReceivePromiseHandler.mock.hpp>
-#include <aasdk/Transport/UT/TransportSendPromiseHandler.mock.hpp>
+#include <USB/UT/USBEndpoint.mock.hpp>
+#include <USB/UT/AOAPDevice.mock.hpp>
+#include <Transport/UT/TransportReceivePromiseHandler.mock.hpp>
+#include <Transport/UT/TransportSendPromiseHandler.mock.hpp>
 #include <aasdk/Transport/USBTransport.hpp>
 
 
