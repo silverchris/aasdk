@@ -8,6 +8,7 @@ env:
 
 jobs:
   build:
+    environment: CI
     # The CMake configure and build commands are platform agnostic and should work equally
     # well on Windows or Mac.  You can convert this to a matrix build if you need
     # cross-platform coverage.
@@ -52,4 +53,9 @@ jobs:
       shell: bash
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: aasdk_ut
+      run: ./aasdk_ut
+      
+    - name: Coverage
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: make aasdk_ut_coverage && bash <(curl -s https://codecov.io/bash)
