@@ -17,7 +17,7 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <aasdk/USB/UT/USBWrapper.mock.hpp>
+#include <USB/UT/USBWrapper.mock.hpp>
 #include <aasdk/USB/AOAPDevice.hpp>
 
 

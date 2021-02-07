@@ -17,9 +17,9 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <aasdk/USB/UT/USBWrapper.mock.hpp>
-#include <aasdk/USB/UT/USBEndpoint.mock.hpp>
-#include <aasdk/USB/UT/USBEndpointPromiseHandler.mock.hpp>
+#include <USB/UT/USBWrapper.mock.hpp>
+#include <USB/UT/USBEndpoint.mock.hpp>
+#include <USB/UT/USBEndpointPromiseHandler.mock.hpp>
 #include <aasdk/Error/Error.hpp>
 #include <aasdk/USB/USBEndpoint.hpp>
 

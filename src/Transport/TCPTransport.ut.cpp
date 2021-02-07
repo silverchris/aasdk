@@ -17,9 +17,9 @@
 */
 
 #include <boost/test/unit_test.hpp>
-#include <aasdk/TCP/UT/TCPEndpoint.mock.hpp>
-#include <aasdk/Transport/UT/TransportReceivePromiseHandler.mock.hpp>
-#include <aasdk/Transport/UT/TransportSendPromiseHandler.mock.hpp>
+#include <TCP/UT/TCPEndpoint.mock.hpp>
+#include <Transport/UT/TransportReceivePromiseHandler.mock.hpp>
+#include <Transport/UT/TransportSendPromiseHandler.mock.hpp>
 #include <aasdk/Transport/TCPTransport.hpp>
 
 
