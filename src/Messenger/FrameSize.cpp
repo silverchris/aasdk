@@ -16,7 +16,7 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <boost/endian/conversion.hpp>
+#include <endian.h>
 #include <aasdk/Messenger/FrameSize.hpp>
 
 
@@ -45,14 +45,14 @@ FrameSize::FrameSize(const common::DataConstBuffer& buffer)
 {
     if(buffer.size >= 2)
     {
-        frameSizeType_ = FrameSizeType::SHORT;
-        frameSize_ = boost::endian::big_to_native(reinterpret_cast<const uint16_t&>(buffer.cdata[0]));
+      frameSizeType_ = FrameSizeType::SHORT;
+      frameSize_ = be16toh(reinterpret_cast<const uint16_t &>(buffer.cdata[0]));
     }
 
     if(buffer.size >= 6)
     {
-        frameSizeType_ = FrameSizeType::EXTENDED;
-        totalSize_ = boost::endian::big_to_native(reinterpret_cast<const uint32_t&>(buffer.cdata[2]));
+      frameSizeType_ = FrameSizeType::EXTENDED;
+      totalSize_ = be16toh(reinterpret_cast<const uint32_t &>(buffer.cdata[2]));
     }
 }
 
@@ -60,14 +60,14 @@ common::Data FrameSize::getData() const
 {
     common::Data data;
 
-    uint16_t frameSizeBig = boost::endian::native_to_big(static_cast<uint16_t>(frameSize_));
-    const common::DataConstBuffer frameSizeBigBuffer(&frameSizeBig, sizeof(frameSizeBig));
+  uint16_t frameSizeBig = htobe16(static_cast<uint16_t>(frameSize_));
+  const common::DataConstBuffer frameSizeBigBuffer(&frameSizeBig, sizeof(frameSizeBig));
     common::copy(data, frameSizeBigBuffer);
 
     if(frameSizeType_ == FrameSizeType::EXTENDED)
     {
-        uint32_t totalSizeBig = boost::endian::native_to_big(static_cast<uint32_t>(totalSize_));
-        const common::DataConstBuffer totalSizeBigBuffer(&totalSizeBig, sizeof(totalSizeBig));
+      uint32_t totalSizeBig = htobe16(static_cast<uint32_t>(totalSize_));
+      const common::DataConstBuffer totalSizeBigBuffer(&totalSizeBig, sizeof(totalSizeBig));
         common::copy(data, totalSizeBigBuffer);
     }
 

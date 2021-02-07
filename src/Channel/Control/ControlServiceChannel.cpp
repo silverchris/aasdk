@@ -16,7 +16,7 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <boost/endian/conversion.hpp>
+#include <endian.h>
 #include <aasdk_proto/ControlMessageIdsEnum.pb.h>
 #include <aasdk/Version.hpp>
 #include <aasdk/IO/PromiseLink.hpp>
@@ -40,15 +40,17 @@ ControlServiceChannel::ControlServiceChannel(asio::io_service::strand& strand, m
 
 void ControlServiceChannel::sendVersionRequest(SendPromise::Pointer promise)
 {
-    auto message(std::make_shared<messenger::Message>(channelId_, messenger::EncryptionType::PLAIN, messenger::MessageType::SPECIFIC));
-    message->insertPayload(messenger::MessageId(proto::ids::ControlMessage::VERSION_REQUEST).getData());
+  auto message(std::make_shared<messenger::Message>(channelId_,
+                                                    messenger::EncryptionType::PLAIN,
+                                                    messenger::MessageType::SPECIFIC));
+  message->insertPayload(messenger::MessageId(proto::ids::ControlMessage::VERSION_REQUEST).getData());
 
-    common::Data versionBuffer(4, 0);
-    reinterpret_cast<uint16_t&>(versionBuffer[0]) = boost::endian::native_to_big(AASDK_MAJOR);
-    reinterpret_cast<uint16_t&>(versionBuffer[2]) = boost::endian::native_to_big(AASDK_MINOR);
-    message->insertPayload(versionBuffer);
+  common::Data versionBuffer(4, 0);
+  reinterpret_cast<uint16_t &>(versionBuffer[0]) = htobe16(AASDK_MAJOR);
+  reinterpret_cast<uint16_t &>(versionBuffer[2]) = htobe16(AASDK_MINOR);
+  message->insertPayload(versionBuffer);
 
-    this->send(std::move(message), std::move(promise));
+  this->send(std::move(message), std::move(promise));
 }
 
 void ControlServiceChannel::sendHandshake(common::Data handshakeBuffer, SendPromise::Pointer promise)
@@ -185,16 +187,17 @@ void ControlServiceChannel::messageHandler(messenger::Message::Pointer message, 
     }
 }
 
-void ControlServiceChannel::handleVersionResponse(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)
-{
-    const size_t elements = payload.size / sizeof(uint16_t);
-    const uint16_t* versionResponse = reinterpret_cast<const uint16_t*>(payload.cdata);
+void ControlServiceChannel::handleVersionResponse(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler) {
+  const size_t elements = payload.size / sizeof(uint16_t);
+  const uint16_t *versionResponse = reinterpret_cast<const uint16_t *>(payload.cdata);
 
-    uint16_t majorCode = elements > 0 ? boost::endian::big_to_native(versionResponse[0]) : 0;
-    uint16_t minorCode = elements > 1 ? boost::endian::big_to_native(versionResponse[1]) : 0;
-    proto::enums::VersionResponseStatus::Enum status = elements > 2 ? static_cast<proto::enums::VersionResponseStatus::Enum>(versionResponse[2]) : proto::enums::VersionResponseStatus::MISMATCH;
+  uint16_t majorCode = elements > 0 ? be16toh(versionResponse[0]) : 0;
+  uint16_t minorCode = elements > 1 ? be16toh(versionResponse[1]) : 0;
+  proto::enums::VersionResponseStatus::Enum status =
+      elements > 2 ? static_cast<proto::enums::VersionResponseStatus::Enum>(versionResponse[2])
+                   : proto::enums::VersionResponseStatus::MISMATCH;
 
-    eventHandler->onVersionResponse(majorCode, minorCode, status);
+  eventHandler->onVersionResponse(majorCode, minorCode, status);
 }
 
 void ControlServiceChannel::handleServiceDiscoveryRequest(const common::DataConstBuffer& payload, IControlServiceChannelEventHandler::Pointer eventHandler)

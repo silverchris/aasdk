@@ -16,7 +16,6 @@
 *  along with aasdk. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <boost/endian/conversion.hpp>
 #include <aasdk/Error/Error.hpp>
 #include <aasdk/Messenger/Messenger.hpp>
 

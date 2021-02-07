@@ -17,7 +17,7 @@
 */
 
 #include <iomanip>
-#include <boost/endian/conversion.hpp>
+#include <endian.h>
 #include <aasdk/Messenger/MessageId.hpp>
 
 
@@ -33,7 +33,7 @@ MessageId::MessageId(uint16_t id):
 }
 MessageId::MessageId(const common::Data& data)
 {
-    id_ = boost::endian::big_to_native(reinterpret_cast<const uint16_t&>(data[0]));
+  id_ = be16toh(reinterpret_cast<const uint16_t &>(data[0]));
 }
 
 uint16_t MessageId::getId() const
@@ -43,8 +43,8 @@ uint16_t MessageId::getId() const
 
 common::Data MessageId::getData() const
 {
-    const MessageId messageIdBig = boost::endian::native_to_big(id_);
-    const common::DataConstBuffer messageIdBigBuffer(&messageIdBig, sizeof(messageIdBig));
+  const MessageId messageIdBig = htobe16(id_);
+  const common::DataConstBuffer messageIdBigBuffer(&messageIdBig, sizeof(messageIdBig));
     return common::createData(messageIdBigBuffer);
 }
 
