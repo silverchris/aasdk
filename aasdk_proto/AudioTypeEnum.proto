@@ -25,9 +25,9 @@ message AudioType
     enum Enum
     {
         NONE = 0;
-        SPEECH = 1;
-        SYSTEM = 2;
-        MEDIA = 3;
-        ALARM = 4;
+        SPEECH = 1; // AUDIO_STREAM_GUIDANCE
+        SYSTEM = 2; // AUDIO_STREAM_SYSTEM_AUDIO
+        MEDIA = 3; // AUDIO_STREAM_MEDIA
+        ALARM = 4; // AUDIO_STREAM_TELEPHONY
     }
 }
