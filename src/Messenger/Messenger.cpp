@@ -18,6 +18,7 @@
 
 #include <aasdk/Error/Error.hpp>
 #include <aasdk/Messenger/Messenger.hpp>
+#include <utility>
 
 
 namespace aasdk
@@ -48,8 +49,8 @@ void Messenger::enqueueReceive(ChannelId channelId, ReceivePromise::Pointer prom
             if(channelReceivePromiseQueue_.size() == 1)
             {
                 auto inStreamPromise = ReceivePromise::defer(receiveStrand_);
-                inStreamPromise->then(std::bind(&Messenger::inStreamMessageHandler, this->shared_from_this(), std::placeholders::_1),
-                                     std::bind(&Messenger::rejectReceivePromiseQueue, this->shared_from_this(), std::placeholders::_1));
+                inStreamPromise->then([this, self = this->shared_from_this()](Message::Pointer message){inStreamMessageHandler(std::move(message));},
+                                     [this, self = this->shared_from_this()](const error::Error &e){rejectReceivePromiseQueue(e);});
                 messageInStream_->startReceive(std::move(inStreamPromise));
             }
         }
@@ -84,8 +85,8 @@ void Messenger::inStreamMessageHandler(Message::Pointer message)
     if(!channelReceivePromiseQueue_.empty())
     {
         auto inStreamPromise = ReceivePromise::defer(receiveStrand_);
-        inStreamPromise->then(std::bind(&Messenger::inStreamMessageHandler, this->shared_from_this(), std::placeholders::_1),
-                             std::bind(&Messenger::rejectReceivePromiseQueue, this->shared_from_this(), std::placeholders::_1));
+        inStreamPromise->then([this, self = this->shared_from_this()](Message::Pointer message){inStreamMessageHandler(std::move(message));},
+                              [this, self = this->shared_from_this()](const error::Error &e){rejectReceivePromiseQueue(e);});
         messageInStream_->startReceive(std::move(inStreamPromise));
     }
 }
@@ -94,8 +95,8 @@ void Messenger::doSend()
 {
     auto queueElementIter = channelSendPromiseQueue_.begin();
     auto outStreamPromise = SendPromise::defer(sendStrand_);
-    outStreamPromise->then(std::bind(&Messenger::outStreamMessageHandler, this->shared_from_this(), queueElementIter),
-                           std::bind(&Messenger::rejectSendPromiseQueue, this->shared_from_this(), std::placeholders::_1));
+    outStreamPromise->then([this, self = this->shared_from_this(), queueElementIter](){outStreamMessageHandler(queueElementIter);},
+                           [this, self = this->shared_from_this()](const error::Error &e){rejectSendPromiseQueue(e);});
 
     messageOutStream_->stream(std::move(queueElementIter->first), std::move(outStreamPromise));
 }

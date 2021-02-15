@@ -17,6 +17,7 @@
 */
 
 #include <aasdk/TCP/TCPEndpoint.hpp>
+#include <utility>
 
 
 namespace aasdk
@@ -34,21 +35,13 @@ TCPEndpoint::TCPEndpoint(ITCPWrapper& tcpWrapper, SocketPointer socket)
 void TCPEndpoint::send(common::DataConstBuffer buffer, Promise::Pointer promise)
 {
     tcpWrapper_.asyncWrite(*socket_, std::move(buffer),
-                           std::bind(&TCPEndpoint::asyncOperationHandler,
-                                     this->shared_from_this(),
-                                     std::placeholders::_1,
-                                     std::placeholders::_2,
-                                     std::move(promise)));
+                           [this, self = this->shared_from_this(), promise](const asio::error_code& ec, size_t bytesTransferred){asyncOperationHandler(ec, bytesTransferred, std::move(promise));});
 }
 
 void TCPEndpoint::receive(common::DataBuffer buffer, Promise::Pointer promise)
 {
     tcpWrapper_.asyncRead(*socket_, std::move(buffer),
-                          std::bind(&TCPEndpoint::asyncOperationHandler,
-                                    this->shared_from_this(),
-                                    std::placeholders::_1,
-                                    std::placeholders::_2,
-                                    std::move(promise)));
+                          [this, self = this->shared_from_this(), promise](const asio::error_code& ec, size_t bytesTransferred){asyncOperationHandler(ec, bytesTransferred, std::move(promise));});
 }
 
 void TCPEndpoint::stop()

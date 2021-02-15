@@ -21,6 +21,7 @@
 #include <aasdk/Channel/AV/IAudioServiceChannelEventHandler.hpp>
 #include <aasdk/Channel/AV/AudioServiceChannel.hpp>
 #include <aasdk/Common/Log.hpp>
+#include <utility>
 
 
 namespace aasdk
@@ -39,8 +40,9 @@ AudioServiceChannel::AudioServiceChannel(asio::io_service::strand& strand, messe
 void AudioServiceChannel::receive(IAudioServiceChannelEventHandler::Pointer eventHandler)
 {
     auto receivePromise = messenger::ReceivePromise::defer(strand_);
-    receivePromise->then(std::bind(&AudioServiceChannel::messageHandler, this->shared_from_this(), std::placeholders::_1, eventHandler),
-                        std::bind(&IAudioServiceChannelEventHandler::onChannelError, eventHandler, std::placeholders::_1));
+    receivePromise->then([this, self = this->shared_from_this(), eventHandler](messenger::Message::Pointer message) {
+                           this->messageHandler(std::move(message), eventHandler);},
+                         [&](const error::Error &e) { eventHandler->onChannelError(e); });
 
     messenger_->enqueueReceive(channelId_, std::move(receivePromise));
 }

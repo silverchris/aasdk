@@ -40,8 +40,9 @@ AVInputServiceChannel::AVInputServiceChannel(asio::io_service::strand& strand, m
 void AVInputServiceChannel::receive(IAVInputServiceChannelEventHandler::Pointer eventHandler)
 {
     auto receivePromise = messenger::ReceivePromise::defer(strand_);
-    receivePromise->then(std::bind(&AVInputServiceChannel::messageHandler, this->shared_from_this(), std::placeholders::_1, eventHandler),
-                        std::bind(&IAVInputServiceChannelEventHandler::onChannelError, eventHandler, std::placeholders::_1));
+    receivePromise->then([this, self = this->shared_from_this(), eventHandler](messenger::Message::Pointer message) {
+                           this->messageHandler(std::move(message), eventHandler);},
+                         [&](const error::Error &e) { eventHandler->onChannelError(e); });
 
     messenger_->enqueueReceive(channelId_, std::move(receivePromise));
 }
