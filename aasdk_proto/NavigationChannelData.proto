@@ -19,12 +19,13 @@
 syntax="proto2";
 
 import "NavigationImageOptionsData.proto";
+import "NavigationTypeEnum.proto";
 
 package aasdk.proto.data;
 
 message NavigationChannel
 {
     required uint32 minimum_interval_ms = 1;
-    required uint32 type = 2;
-    required NavigationImageOptions image_options = 3;
+    required enums.NavigationType.Enum type = 2;
+    optional NavigationImageOptions image_options = 3;
 }

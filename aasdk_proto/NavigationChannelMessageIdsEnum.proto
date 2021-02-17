@@ -1,0 +1,14 @@
+syntax="proto2";
+
+package aasdk.proto.ids;
+
+message NavigationChannelMessage
+{
+    enum Enum
+    {
+        NONE = 0x0000;
+        NAVIGATION_STATUS = 0x8003;
+        NAVIGATION_TURN_EVENT = 0x8004;
+        NAVIGATION_TURN_DISTANCE = 0x8005;
+    }
+}
