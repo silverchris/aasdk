@@ -62,7 +62,7 @@ void NavigationChannel::messageHandler(messenger::Message::Pointer message,
       this->handleNavigationTurn(payload,
                                  std::move(eventHandler));
       break;
-    case proto::ids::NavigationChannelMessage::NAVIGATION_TURN_DISTANCE:
+    case proto::ids::NavigationChannelMessage::NAVIGATION_DISTANCE_EVENT:
       this->handleNavigationDistance(payload,
                                      std::move(eventHandler));
       break;

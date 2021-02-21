@@ -24,6 +24,7 @@
 #include <aasdk_proto/ServiceDiscoveryResponseMessage.pb.h>
 #include <aasdk_proto/AudioFocusResponseMessage.pb.h>
 #include <aasdk_proto/NavigationFocusResponseMessage.pb.h>
+#include <aasdk_proto/NavigationFocusTypeEnum.pb.h>
 #include <aasdk_proto/StatusEnum.pb.h>
 #include <aasdk_proto/PingRequestMessage.pb.h>
 #include <aasdk_proto/VoiceSessionRequestMessage.pb.h>

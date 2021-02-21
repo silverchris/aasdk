@@ -18,9 +18,11 @@
 
 syntax="proto2";
 
+import "NavigationFocusTypeEnum.proto";
+
 package aasdk.proto.messages;
 
 message NavigationFocusResponse
 {
-    required uint32 type = 1;
+    required enums.NavigationFocusType.Enum type = 1;
 }

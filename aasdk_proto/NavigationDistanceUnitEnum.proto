@@ -10,5 +10,6 @@ message NavigationDistanceUnit {
         MILES10 = 4;      // miles * 1000, used when rounded distance > 10mi
         MILES = 5;        // miles * 1000, used when rounded distance between 1mi and 10mi
         FEET = 6;         // feet * 1000
+        YARDS = 7;        // yards * unknown *UNTESTED*
     }
 }
