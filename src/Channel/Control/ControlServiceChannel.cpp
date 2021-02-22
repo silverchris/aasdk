@@ -139,7 +139,8 @@ void ControlServiceChannel::receive(IControlServiceChannelEventHandler::Pointer 
     auto receivePromise  = messenger::ReceivePromise::defer(strand_);
     receivePromise->then([this, self = this->shared_from_this(), eventHandler](messenger::Message::Pointer message) {
                            this->messageHandler(std::move(message), eventHandler);},
-                         [&](const error::Error &e) { eventHandler->onChannelError(e); });
+                         [&](const error::Error &e) { AASDK_LOG(ERROR) << "channel error: " << e.what()
+                                                                       << ", channel: control\n"; });
 
     messenger_->enqueueReceive(channelId_, std::move(receivePromise));
 }
